@@ -72,10 +72,18 @@ deploy:
   repo: https://github.com/dmkf1024/dmkf1024.github.io.git
   branch: master
 
-# 新增
+# 新增搜索
 algolia:
   applicationID: '9H73M7ES5Q'
   apiKey: '5bdda6a6d6df043cbc55f465ced585eb'
   adminApiKey: '9e8e6902d0531b897a144693aa1fd8d9'
   indexName: 'dmkf_NAME'
   chunkSize: 5000
+
+# 设置RSS
+feed:
+  type: rss2
+  path: rss2.xml
+  limit: 5
+  hub:
+  content: 'true'
