@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 代码咖啡
-subtitle: 程序员技术栈
+title: 程序员技术栈
+subtitle: 
 description: 一名默默无闻的程序猿的日常博客分享
-author: Wong Jie
-language: zh-CN
+author: 代码咖啡
+language: zh-Hans
 timezone: Asia/Shanghai
 
 # URL
@@ -71,3 +71,11 @@ deploy:
   type: git
   repo: https://github.com/dmkf1024/dmkf1024.github.io.git
   branch: master
+
+# 新增
+algolia:
+  applicationID: '9H73M7ES5Q'
+  apiKey: '5bdda6a6d6df043cbc55f465ced585eb'
+  adminApiKey: '9e8e6902d0531b897a144693aa1fd8d9'
+  indexName: 'dmkf_NAME'
+  chunkSize: 5000
