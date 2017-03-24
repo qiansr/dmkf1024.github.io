@@ -1,0 +1,1023 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="博客,技术," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="程序员技术栈" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/my_avatar.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我为什么要写博客？写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长李响同學引导，因其奇佳的段子手天赋引来了诸多粉丝，尤其是《李响同學 #你的包里有什么》一文，让我感觉此文将其个性展现的淋漓尽致，一时兴起，注册了简书账号，期待着自己有一天也可以像他一样，但是时间一天天的过去，我开始陷入沉思：总不能什么事都不做，坐等粉丝呼呼地来关注我吧！于是我绞尽脑汁，掏出我的“满腹">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何写出一篇登得上大雅之堂的技术博客">
+<meta property="og:url" content="http://inerdstack.com/2017/03/12/7106993/index.html">
+<meta property="og:site_name" content="程序员技术栈">
+<meta property="og:description" content="我为什么要写博客？写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长李响同學引导，因其奇佳的段子手天赋引来了诸多粉丝，尤其是《李响同學 #你的包里有什么》一文，让我感觉此文将其个性展现的淋漓尽致，一时兴起，注册了简书账号，期待着自己有一天也可以像他一样，但是时间一天天的过去，我开始陷入沉思：总不能什么事都不做，坐等粉丝呼呼地来关注我吧！于是我绞尽脑汁，掏出我的“满腹">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-b75fac4f92d0a592.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-ab6300dfc040be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-c12191db06a83510.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-83c8c2fadf4b3531.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-96a0ae36d67d19b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-13T04:07:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何写出一篇登得上大雅之堂的技术博客">
+<meta name="twitter:description" content="我为什么要写博客？写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长李响同學引导，因其奇佳的段子手天赋引来了诸多粉丝，尤其是《李响同學 #你的包里有什么》一文，让我感觉此文将其个性展现的淋漓尽致，一时兴起，注册了简书账号，期待着自己有一天也可以像他一样，但是时间一天天的过去，我开始陷入沉思：总不能什么事都不做，坐等粉丝呼呼地来关注我吧！于是我绞尽脑汁，掏出我的“满腹">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/291600-b75fac4f92d0a592.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '9H73M7ES5Q',
+      apiKey: '5bdda6a6d6df043cbc55f465ced585eb',
+      indexName: 'dmkf_NAME',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词进行搜索","hits_empty":"找不到关于“ ${query} ”的文章","hits_stats":"共找到 ${hits} 篇文章，花了 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inerdstack.com/2017/03/12/7106993/"/>
+
+
+
+
+
+  <title> 如何写出一篇登得上大雅之堂的技术博客 | 程序员技术栈 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9f7703d3d6a68b41a2f2ca3ab2676142";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序员技术栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://inerdstack.com/2017/03/12/7106993/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="代码咖啡">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员技术栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何写出一篇登得上大雅之堂的技术博客
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T16:47:46+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序猿叨叨叨/" itemprop="url" rel="index">
+                    <span itemprop="name">程序猿叨叨叨</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/12/7106993/" class="leancloud_visitors" data-flag-title="如何写出一篇登得上大雅之堂的技术博客">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="我为什么要写博客？"><a href="#我为什么要写博客？" class="headerlink" title="我为什么要写博客？"></a>我为什么要写博客？</h1><p>写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长<a href="http://www.jianshu.com/users/b5cb28bfb837/top_articles" target="_blank" rel="external">李响同學</a>引导，因其奇佳的段子手天赋引来了诸多粉丝，尤其是《<a href="http://www.jianshu.com/p/f963a4e5e872" target="_blank" rel="external">李响同學 #你的包里有什么</a>》一文，让我感觉此文将其个性展现的淋漓尽致，一时兴起，注册了简书账号，期待着自己有一天也可以像他一样，但是时间一天天的过去，我开始陷入沉思：总不能什么事都不做，坐等粉丝呼呼地来关注我吧！于是我绞尽脑汁，掏出我的“满腹经纶”，终于憋出了《<a href="http://www.jianshu.com/p/9572b2eb4c0a" target="_blank" rel="external">闲谈码农群体的新鸟和老菜鸟</a>》这篇文章，但是总感觉缺了点什么，觉得自己只是为了写文章而写文章，无法将自己心里的东西挖掘出来。在后来两年多的时间里，一路跌跌撞撞将博客写下来，渐渐地找到了答案。写博客，尤其是写技术性的博客，请记住一点：<strong>我不是为了在我的文章数量上+1而写博客！</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-b75fac4f92d0a592.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="文章数"></p>
+<p>写博客的目的应该是：<em>我在开发过程中遇到了一个问题让我困惑了很久，我查询了网上的资料，结果千篇一律，都没有解决我的问题，最终我通过询问他人、阅读源码、在他人的基础上对问题有了更进了一步的理解，我想把解决方法和他人分享，以免他人遇到相同的问题，继续踩坑，重复制造轮子，所以我要写博客。</em></p>
+<h1 id="写博客前我要准备什么？"><a href="#写博客前我要准备什么？" class="headerlink" title="写博客前我要准备什么？"></a>写博客前我要准备什么？</h1><p>明确了写博客的目的后，我们要开始着手准备用来充实博客内容的素材：</p>
+<ul>
+<li><strong>图</strong><br>图可以包括：<em>效果图、思维导图、示意图</em> 等，若更深一步，可以加入软件工程里的<em>用例图、UML图、静态图、包图、甘特图</em> 等。注意在需要着重讲解或不容易用语言描述的地方一定要加入有意义的图，用以辅助说明。</li>
+<li><p><strong>代码</strong><br>代码可分为完整代码和代码片段。完整代码不宜放入文章内容中，应上传代码仓库，并在文章末尾添加代码仓库链接，方便读者访问；代码片段放入文中， 作具体讲解，片段代码可以像下面一样添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public class Code &#123;</div><div class="line">  // 这里是填写代码的地方，用代码框框起来</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>解决思路</strong><br>解决思路是问题从被发现到寻找答案再到被解决的中心思想，是笔者与读者交流解决问题的心路历程的核心，推荐以线性思维贯穿整篇博客。</p>
+</li>
+</ul>
+<h1 id="文章内容如何排版？"><a href="#文章内容如何排版？" class="headerlink" title="文章内容如何排版？"></a>文章内容如何排版？</h1><p>正式进入写文章阶段，按照问题的解决思路，相信每一位做好充分准备的笔者都能将文章写得很充实，但是充实并不代表能让读者赏心悦目。人靠衣装，文章也要靠排版给读者带来良好的用户体验。简书对于文本编辑提供了两种编辑器：<em>富文本</em> 和<em>Markdown</em> 。这里我是比较推荐使用Markdown的，方便排版，便于引导笔者将注意力更多地放在文本内容编辑上而非对文本样式的控制，接下来讲讲内容该如何排版，排版可从以下几点进行深化：</p>
+<ul>
+<li><p><strong>文字</strong><br>文字大小、字体需统一，对于需要强调的内容可用<strong>粗体</strong>、<em>斜体</em> 来突出，但是不推荐全文大篇幅的粗体斜体，这样会让文章看起来不整洁，不够大气。</p>
+</li>
+<li><p><strong>标题</strong><br>简书的标题和文章内容是分开的，所以这里的标题是段落的小标题，而非文章主标题。段落的标题需要显眼，让人一目了然，对标题的处理常见的方式为：</p>
+<ul>
+<li>加粗、加大字体<br><img src="http://upload-images.jianshu.io/upload_images/291600-ab6300dfc040be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="加粗加大的标题"></li>
+<li>使用<em>引用</em>，为标题整行添加背景<br><img src="http://upload-images.jianshu.io/upload_images/291600-c12191db06a83510.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引用样式的标题"></li>
+</ul>
+</li>
+<li><p><strong>段落</strong><br>段落是一个中心思想的集合，段落之间建议空一行，让文章看起来层次分明；一个小结结束后，段落之间可以添加分割线进行小结的划分，但是极不推荐每个段落都用分割线分割，这样会让文章看起来档次很低，有一种随意做笔记，登不上台面的感觉。</p>
+</li>
+<li><p><strong>代码</strong><br>文章中嵌入代码方便读者更好地对问题的解决进行理解。象征性的代码推荐使用截图实现，象征性的代码一般非解决问题过程中直接用到的代码，而是类似于源码，用来说明问题的辅助性代码，如下图：<br><img src="http://upload-images.jianshu.io/upload_images/291600-83c8c2fadf4b3531.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="象征性代码"><br>而关键代码推荐在代码框手动输入，这样方便读者对代码进行粘贴复制，同时使用代码框也可以将代码和原文很好地划分开，方便读者阅读。</p>
+</li>
+<li><p><strong>图片</strong><br>图片作为辅助性素材，可以恰到好处地弥补语言不以描述的不足，一般放在描述性文本内容的前面，图片下方亦可添加图片的简单说明，效果更佳。简书图片使用七牛云处理，修改图片链接后的参数，可对图片的大小进行调整，推荐写博客时适当调整图片大小达到布局排版平衡，参数修改如下图，w表示宽度，后面选中的数值表示宽度的像素点：<br><img src="http://upload-images.jianshu.io/upload_images/291600-96a0ae36d67d19b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改图片大小参数"></p>
+</li>
+<li><p><strong>转载</strong><br>作为对原创最基本的尊重，转载时务必在文章底部或文章开头添加原创文章的链接；为方便读者对问题更加全面的理解，建议笔者在文章中添加自己解决问题时参考的文章链接。</p>
+</li>
+</ul>
+<h1 id="写好博客后做什么？"><a href="#写好博客后做什么？" class="headerlink" title="写好博客后做什么？"></a>写好博客后做什么？</h1><p>写好一篇博客后，不要急着发布投稿，先做好以下几点：</p>
+<ul>
+<li>检查文章错别字</li>
+<li>润色文章语句，使读起来连贯通顺</li>
+<li>检查代码格式和字母拼写是否正确</li>
+<li>检查链接是否有效</li>
+</ul>
+<p>做好以上几点，接下来可以考虑发表并投稿文章，投稿文章时请注意以下两点：</p>
+<ul>
+<li><p><strong>投稿时间</strong><br>关注简书的用户大多是在校大学生和在职上班族，他们一天大多数时间都投入上班学习中，唯有在<em>早餐时间</em> 、<em>午休时间</em> 和<em>晚上下班后到临睡前</em> 这些时间段是有空浏览简书的，所以建议在这几个时间段投稿自己的文章，而且这些时间段里，文章被收录的处理时间更短，浏览量会更高。</p>
+</li>
+<li><p><strong>投稿专题</strong><br>好马需要有伯乐的赏识，一篇好的文章需要有好的专题环境才能获得更大的关注度。选择专题需要关注专题收录的<em>文章类型</em> 和<em>订阅人数</em>，合适的文章类型能快速的让读者找到自己文章，而订阅量大的专题可以极大地提高文章的点击量。</p>
+</li>
+</ul>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>在浏览简书的时候，我经常可以看到有这么几类文章浏览量和点赞人数非常得多：<em>鸡汤励志文</em> 、<em>工具推荐文</em> 、<em>速成效率文</em> 、<em>高逼格不知所云但云之有理文</em> 。在这里强调一下，我们写技术博客的主要目的是分享自己解决问题的经验，其次是通过写博客来温故或者说是更深一步地理解问题的本质。不论我们写什么文章，重要的是通过<em>写</em> 来给自己带来实质性的价值，所以希望大家不要盲目追求点赞量，失去自己写博客的初衷。不忘初心，方得始终！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="代码咖啡 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="代码咖啡 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/博客/" rel="tag"># 博客</a>
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/8661067/" rel="next" title="一招搞定Windows无法安装到GPT分区形式磁盘疑难">
+                <i class="fa fa-chevron-left"></i> 一招搞定Windows无法安装到GPT分区形式磁盘疑难
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/12/5965831/" rel="prev" title="你不得不知的Git指令">
+                你不得不知的Git指令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/my_avatar.jpg"
+               alt="代码咖啡" />
+          <p class="site-author-name" itemprop="name">代码咖啡</p>
+           
+              <p class="site-description motion-element" itemprop="description">一名默默无闻的程序猿的日常博客分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dmkf1024" target="_blank" title="Github">
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/9b87ba5fc959" target="_blank" title="简书">
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://runnerwoo.com/" title="RunnerWoo's Blog" target="_blank">RunnerWoo's Blog</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://best8023.com/" title="隔壁老王的小窝" target="_blank">隔壁老王的小窝</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/uwyc/" title="uwyc" target="_blank">uwyc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#我为什么要写博客？"><span class="nav-number">1.</span> <span class="nav-text">我为什么要写博客？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写博客前我要准备什么？"><span class="nav-number">2.</span> <span class="nav-text">写博客前我要准备什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文章内容如何排版？"><span class="nav-number">3.</span> <span class="nav-text">文章内容如何排版？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写好博客后做什么？"><span class="nav-number">4.</span> <span class="nav-text">写好博客后做什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最后"><span class="nav-number">5.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">代码咖啡</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2127199"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("UEpC7FFQeyh4QE8f9cF7OGa0-gzGzoHsz", "o5pavJ8YufIWwhsbQjU1NaYO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

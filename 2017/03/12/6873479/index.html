@@ -1,0 +1,1003 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Android 5.0,Toast," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="程序员技术栈" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/my_avatar.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="问题分析开发中我们经常会在适配5.0以后的机型遇到各种各样的问题，其中有一个不大不小的问题就是：Toast不显示问题
+其原因是：用户使用android 5.0以上的系统在安装APP时，将消息通知的权限关闭掉了。实际上用户本意只是想关闭Notification，但是Toast的show方法中有调用INotificationManager这个类，而这个类在用户关闭消息通知权限的同时被禁用了，所以我们的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 5.0以上系统Toast不显示的解决方案">
+<meta property="og:url" content="http://inerdstack.com/2017/03/12/6873479/index.html">
+<meta property="og:site_name" content="程序员技术栈">
+<meta property="og:description" content="问题分析开发中我们经常会在适配5.0以后的机型遇到各种各样的问题，其中有一个不大不小的问题就是：Toast不显示问题
+其原因是：用户使用android 5.0以上的系统在安装APP时，将消息通知的权限关闭掉了。实际上用户本意只是想关闭Notification，但是Toast的show方法中有调用INotificationManager这个类，而这个类在用户关闭消息通知权限的同时被禁用了，所以我们的">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-d4fb022fbd44e082.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-6008f2b5857282a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-ebc1cdbfe3a8fcdc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-13T04:05:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 5.0以上系统Toast不显示的解决方案">
+<meta name="twitter:description" content="问题分析开发中我们经常会在适配5.0以后的机型遇到各种各样的问题，其中有一个不大不小的问题就是：Toast不显示问题
+其原因是：用户使用android 5.0以上的系统在安装APP时，将消息通知的权限关闭掉了。实际上用户本意只是想关闭Notification，但是Toast的show方法中有调用INotificationManager这个类，而这个类在用户关闭消息通知权限的同时被禁用了，所以我们的">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/291600-d4fb022fbd44e082.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '9H73M7ES5Q',
+      apiKey: '5bdda6a6d6df043cbc55f465ced585eb',
+      indexName: 'dmkf_NAME',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词进行搜索","hits_empty":"找不到关于“ ${query} ”的文章","hits_stats":"共找到 ${hits} 篇文章，花了 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inerdstack.com/2017/03/12/6873479/"/>
+
+
+
+
+
+  <title> Android 5.0以上系统Toast不显示的解决方案 | 程序员技术栈 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9f7703d3d6a68b41a2f2ca3ab2676142";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序员技术栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://inerdstack.com/2017/03/12/6873479/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="代码咖啡">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员技术栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 5.0以上系统Toast不显示的解决方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T16:12:59+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android从入门到炸机/" itemprop="url" rel="index">
+                    <span itemprop="name">Android从入门到炸机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/12/6873479/" class="leancloud_visitors" data-flag-title="Android 5.0以上系统Toast不显示的解决方案">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h1><p>开发中我们经常会在适配5.0以后的机型遇到各种各样的问题，其中有一个不大不小的问题就是：<strong>Toast不显示问题</strong></p>
+<p>其原因是：用户使用android 5.0以上的系统在安装APP时，将消息通知的权限关闭掉了。实际上用户本意只是想关闭Notification，但是Toast的show方法中有调用INotificationManager这个类，而这个类在用户关闭消息通知权限的同时被禁用了，所以我们的吐司无法显示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-d4fb022fbd44e082.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Toast.show()"></p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-6008f2b5857282a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自定义Toast（上）与Toast（下）比对"></p>
+<h1 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h1><p>既然系统不允许我们调用Toast，那么我们就自立门户——自己写一个Toast出来。我们总体的思路是：在Activity的布局中添加View实现Toast的效果。</p>
+<ul>
+<li><p><strong>Toast背景shape定义</strong><br>我们知道shape的背景是一个半透明黑色的圆角效果：<br><img src="http://upload-images.jianshu.io/upload_images/291600-ebc1cdbfe3a8fcdc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Toast"><br>因此我们使用的是shape的corners和solid结点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</div><div class="line">    &lt;solid android:color=&quot;#99000000&quot; /&gt;</div><div class="line">    &lt;corners android:radius=&quot;8dp&quot; /&gt;</div><div class="line">&lt;/shape&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>定义布局</strong><br>布局中我们主要使用TextView控件，设置相应的边距和背景即可，布局代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    android:id=&quot;@+id/mbContainer&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;</div><div class="line">    android:layout_marginBottom=&quot;200dp&quot;</div><div class="line">    android:gravity=&quot;bottom|center&quot;</div><div class="line">    android:orientation=&quot;vertical&quot;</div><div class="line">    android:paddingLeft=&quot;50dp&quot;</div><div class="line">    android:paddingRight=&quot;50dp&quot;&gt;</div><div class="line"></div><div class="line">    &lt;LinearLayout android:id=&quot;@+id/toast_linear&quot;</div><div class="line">        android:layout_width=&quot;wrap_content&quot;</div><div class="line">        android:layout_height=&quot;wrap_content&quot;</div><div class="line">        android:background=&quot;@drawable/shape_toastutils_bg&quot;</div><div class="line">        android:gravity=&quot;bottom|center&quot;</div><div class="line">        android:orientation=&quot;vertical&quot;</div><div class="line">        android:padding=&quot;8dp&quot;&gt;</div><div class="line"></div><div class="line">        &lt;TextView android:id=&quot;@+id/mbMessage&quot;</div><div class="line">            android:layout_width=&quot;match_parent&quot;</div><div class="line">            android:layout_height=&quot;wrap_content&quot;</div><div class="line">            android:layout_gravity=&quot;center_vertical&quot;</div><div class="line">            android:layout_margin=&quot;5dp&quot;</div><div class="line">            android:layout_weight=&quot;1&quot;</div><div class="line">            android:gravity=&quot;center&quot;</div><div class="line">            android:shadowColor=&quot;#BB000000&quot;</div><div class="line">            android:shadowRadius=&quot;2.75&quot;</div><div class="line">            android:textSize=&quot;12sp&quot;</div><div class="line">            android:textColor=&quot;#FFFFFFFF&quot; /&gt;</div><div class="line">    &lt;/LinearLayout&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>java代码逻辑<br>自定义Toast的java代码逻辑主要模仿系统Toast的makeText()、show()两个方法，此外还需要reset()方法，实现Toast显示过程中Activity切换时context也随之切换，关键代码如下：<br><strong>makeText(Context context, String message, int HIDE_DELAY)方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public static ToastUtils makeText(Context context, String message,</div><div class="line">                                  int HIDE_DELAY) &#123;</div><div class="line">    if (mInstance == null) &#123;</div><div class="line">        mInstance = new ToastUtils(context);</div><div class="line">    &#125; else &#123;</div><div class="line">        // 考虑Activity切换时，Toast依然显示</div><div class="line">        if (!mContext.getClass().getName().endsWith(context.getClass().getName())) &#123;</div><div class="line">            mInstance = new ToastUtils(context);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    if (HIDE_DELAY == LENGTH_LONG) &#123;</div><div class="line">        mInstance.HIDE_DELAY = 2500;</div><div class="line">    &#125; else &#123;</div><div class="line">        mInstance.HIDE_DELAY = 1500;</div><div class="line">    &#125;</div><div class="line">    mTextView.setText(message);</div><div class="line">    return mInstance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>makeText(Context context, int resId, int HIDE_DELAY)方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public static ToastUtils makeText(Context context, int resId, int HIDE_DELAY) &#123;</div><div class="line">    String mes = &quot;&quot;;</div><div class="line">    try &#123;</div><div class="line">        mes = context.getResources().getString(resId);</div><div class="line">    &#125; catch (Resources.NotFoundException e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">    return makeText(context, mes, HIDE_DELAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>show()方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public void show() &#123;</div><div class="line">    if (isShow) &#123;</div><div class="line">        // 若已经显示，则不再次显示</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    isShow = true;</div><div class="line">    // 显示动画</div><div class="line">    mFadeInAnimation = new AlphaAnimation(0.0f, 1.0f);</div><div class="line">    // 消失动画</div><div class="line">    mFadeOutAnimation = new AlphaAnimation(1.0f, 0.0f);</div><div class="line">    mFadeOutAnimation.setDuration(ANIMATION_DURATION);</div><div class="line">    mFadeOutAnimation</div><div class="line">            .setAnimationListener(new Animation.AnimationListener() &#123;</div><div class="line">                @Override</div><div class="line">                public void onAnimationStart(Animation animation) &#123;</div><div class="line">                    // 消失动画后更改状态为 未显示</div><div class="line">                    isShow = false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public void onAnimationEnd(Animation animation) &#123;</div><div class="line">                    // 隐藏布局，不使用remove方法为防止多次创建多个布局</div><div class="line">                    mContainer.setVisibility(View.GONE);</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public void onAnimationRepeat(Animation animation) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">    mContainer.setVisibility(View.VISIBLE);</div><div class="line">    mFadeInAnimation.setDuration(ANIMATION_DURATION);</div><div class="line">    mContainer.startAnimation(mFadeInAnimation);</div><div class="line">    mHandler.postDelayed(mHideRunnable, HIDE_DELAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>方法调用</strong><br>自定义Toast的使用与系统Toast类似，调用方法如下：<br><strong>ToastUtils.makeText(context, “消息内容”,ToastUtils.LENGTH_SHORT).show();</strong></li>
+</ul>
+<h1 id="代码链接"><a href="#代码链接" class="headerlink" title="代码链接"></a>代码链接</h1><p>代码已上传Github，点击<a href="https://github.com/inerdstack/ToastUtils" target="_blank" rel="external">这里</a>查看详细。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&amp;mid=2650821437&amp;idx=1&amp;sn=b2f9687d6edea1c3965a415e8d8becd8&amp;chksm=80b787a3b7c00eb5e758e2432c2dfb28df00541b6c1b90bd9eb97303820310d851205a750b66&amp;mpshare=1&amp;scene=1&amp;srcid=1110GiKRl8H0WwoJsjxZcO6D#rd" target="_blank" rel="external">当关闭通知消息权限后无法显示系统Toast的解决方案</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="代码咖啡 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="代码咖啡 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Android-5-0/" rel="tag"># Android 5.0</a>
+          
+            <a href="/tags/Toast/" rel="tag"># Toast</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/6409747/" rel="next" title="Mac端如何反编译apk？">
+                <i class="fa fa-chevron-left"></i> Mac端如何反编译apk？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/12/6955589/" rel="prev" title="手把手教你打造RecyclerView滚动特效">
+                手把手教你打造RecyclerView滚动特效 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/my_avatar.jpg"
+               alt="代码咖啡" />
+          <p class="site-author-name" itemprop="name">代码咖啡</p>
+           
+              <p class="site-description motion-element" itemprop="description">一名默默无闻的程序猿的日常博客分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dmkf1024" target="_blank" title="Github">
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/9b87ba5fc959" target="_blank" title="简书">
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://runnerwoo.com/" title="RunnerWoo's Blog" target="_blank">RunnerWoo's Blog</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://best8023.com/" title="隔壁老王的小窝" target="_blank">隔壁老王的小窝</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/uwyc/" title="uwyc" target="_blank">uwyc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题分析"><span class="nav-number">1.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">2.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题解决"><span class="nav-number">3.</span> <span class="nav-text">问题解决</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码链接"><span class="nav-number">4.</span> <span class="nav-text">代码链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">代码咖啡</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2127199"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("UEpC7FFQeyh4QE8f9cF7OGa0-gzGzoHsz", "o5pavJ8YufIWwhsbQjU1NaYO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1014 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,RecyclerView,刷新,崩溃," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="程序员技术栈" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/my_avatar.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="崩溃再现今天测试 APP的时候发现一个有关RecyclerView的BUG，我们先上图来看看崩溃情况：
+
+报错信息摸着后脑勺，一脸蒙圈地看着Android Studio打印着下面这段日志：
+123456789101112131415java.lang.IllegalArgumentException: Scrapped or attached views may not be recycled.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="当你刷新RecyclerView程序崩掉的时候">
+<meta property="og:url" content="http://inerdstack.com/2017/03/12/8060254/index.html">
+<meta property="og:site_name" content="程序员技术栈">
+<meta property="og:description" content="崩溃再现今天测试 APP的时候发现一个有关RecyclerView的BUG，我们先上图来看看崩溃情况：
+
+报错信息摸着后脑勺，一脸蒙圈地看着Android Studio打印着下面这段日志：
+123456789101112131415java.lang.IllegalArgumentException: Scrapped or attached views may not be recycled.">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-c3ac44b293b1d8c1.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-ae63d153be9a5c78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-70b7cd998daaa1e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-c6d9c86f93311f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-13T04:07:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="当你刷新RecyclerView程序崩掉的时候">
+<meta name="twitter:description" content="崩溃再现今天测试 APP的时候发现一个有关RecyclerView的BUG，我们先上图来看看崩溃情况：
+
+报错信息摸着后脑勺，一脸蒙圈地看着Android Studio打印着下面这段日志：
+123456789101112131415java.lang.IllegalArgumentException: Scrapped or attached views may not be recycled.">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/291600-c3ac44b293b1d8c1.gif?imageMogr2/auto-orient/strip">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '9H73M7ES5Q',
+      apiKey: '5bdda6a6d6df043cbc55f465ced585eb',
+      indexName: 'dmkf_NAME',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词进行搜索","hits_empty":"找不到关于“ ${query} ”的文章","hits_stats":"共找到 ${hits} 篇文章，花了 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inerdstack.com/2017/03/12/8060254/"/>
+
+
+
+
+
+  <title> 当你刷新RecyclerView程序崩掉的时候 | 程序员技术栈 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9f7703d3d6a68b41a2f2ca3ab2676142";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序员技术栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://inerdstack.com/2017/03/12/8060254/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="代码咖啡">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员技术栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                当你刷新RecyclerView程序崩掉的时候
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T16:15:59+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android从入门到炸机/" itemprop="url" rel="index">
+                    <span itemprop="name">Android从入门到炸机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/12/8060254/" class="leancloud_visitors" data-flag-title="当你刷新RecyclerView程序崩掉的时候">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="崩溃再现"><a href="#崩溃再现" class="headerlink" title="崩溃再现"></a>崩溃再现</h1><p>今天测试 APP的时候发现一个有关RecyclerView的BUG，我们先上图来看看崩溃情况：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-c3ac44b293b1d8c1.gif?imageMogr2/auto-orient/strip" alt="崩溃再现"></p>
+<h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><p>摸着后脑勺，一脸蒙圈地看着Android Studio打印着下面这段日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Scrapped or attached views may not be recycled. isScrap:false isAttached:true</div><div class="line">at android.support.v7.widget.RecyclerView$Recycler.recycleViewHolderInternal(RecyclerView.java:5659)</div><div class="line">	at android.support.v7.widget.RecyclerView$Recycler.recycleView(RecyclerView.java:5603)</div><div class="line">	at android.support.v7.widget.GapWorker.prefetchPositionWithDeadline(GapWorker.java:277)</div><div class="line">	at android.support.v7.widget.GapWorker.flushTaskWithDeadline(GapWorker.java:324)</div><div class="line">	at android.support.v7.widget.GapWorker.flushTasksWithDeadline(GapWorker.java:337)</div><div class="line">	at android.support.v7.widget.GapWorker.prefetch(GapWorker.java:344)</div><div class="line">	at android.support.v7.widget.GapWorker.run(GapWorker.java:370)</div><div class="line">	at android.os.Handler.handleCallback(Handler.java:743)</div><div class="line">	at android.os.Handler.dispatchMessage(Handler.java:95)</div><div class="line">	at android.os.Looper.loop(Looper.java:150)</div><div class="line">	at android.app.ActivityThread.main(ActivityThread.java:5665)</div><div class="line">	at java.lang.reflect.Method.invoke(Native Method)</div><div class="line">	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:822)</div><div class="line">	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:712)</div></pre></td></tr></table></figure>
+<h1 id="寻找解决方法"><a href="#寻找解决方法" class="headerlink" title="寻找解决方法"></a>寻找解决方法</h1><p>定眼一看，这个信息并不是传统型经典款的异常，不像空指针异常，找不到出错的地方。无奈之下，寻求万能的谷歌。通过查询，得到如下两种原因及解决方案：</p>
+<ul>
+<li><p>android:animateLayoutChanges与RecyclerView刷新共用</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-ae63d153be9a5c78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片截自StackOverFlow"></p>
+<p>通过蹩脚的翻译，得到如下信息：</p>
+<blockquote>
+<p>这个错误的原因是xml布局文件中将<em>android:animateLayoutChanges </em>设置为<em>true</em> 并且<em>java</em> 代码里对<em>RecyclerView</em> 的<em>adapter</em> 调用了<em>notifyDataSetChanged()</em> 方法。</p>
+</blockquote>
+<p>由此可知晓android:animateLayoutChanges=”true”与RecyclerView的刷新不可同时存在，那么<strong>为什么同时存在会报错呢？</strong><br>我们知道android:animateLayoutChanges=”true”是在列表增删Item的时候调用系统自带的动画效果，而RecyclerView的机制是对子视图的复用，不会在真正意义上对Item的控件进行增加、删除，与android:animateLayoutChanges原理相悖，因此会报错。</p>
+</li>
+<li><p>item中获取焦点的控件使之无法销毁</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-70b7cd998daaa1e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片截自StackOverFlow"></p>
+<p>从回答中，我们可以看到，在多个Item包含EditText的时候，因为其中一个EditText抢占了RecyclerView的焦点，导致无法被回收，所以报错。其<strong>解决方法</strong>为给RecyclerView添加focusableInTouchMode属性，使之在触摸模式下（手指接触屏幕）依然可以获取到焦点，从而对Item进行回收刷新。</p>
+</li>
+</ul>
+<h1 id="找到真正原因"><a href="#找到真正原因" class="headerlink" title="找到真正原因"></a>找到真正原因</h1><p>尝试了上述两种方法，发现问题依然没有解决，因问题出现在刷新的地方，而我使用的是XRecyclerView框架，所以到onRefresh方法里去找原因，发现了问题的真正原因：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-c6d9c86f93311f80.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="onRefresh操作代码"></p>
+<p>从上述代码中可以看到，我先清空了已有的数据，然后再获取网络接口的数据，而从清空数据到获取到数据的这段时间里，List中的数据是不存在的，所以给了RecyclerView要回收Item，但是View没有被回收的假象（此时并没有执行notifyDataSetChanged()方法），因此程序报错。</p>
+<p>其解决方法是：将列表清空的方法放到获取到接口数据以后执行。</p>
+<p>以上就是本文的所有内容，对于上述解决方法的理解存在“主观臆断”的倾向，因此本文仅供参考，若有错误的地方，欢迎大家在文章下方评论指正！</p>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><p><a href="http://blog.csdn.net/io_field/article/details/53083586" target="_blank" rel="external">http://blog.csdn.net/io_field/article/details/53083586</a><br><a href="http://stackoverflow.com/questions/26477660/recyclerview-crashes-when-scrapped-or-attached-views-may-not-be-recycled#" target="_blank" rel="external">http://stackoverflow.com/questions/26477660/recyclerview-crashes-when-scrapped-or-attached-views-may-not-be-recycled#</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="代码咖啡 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="代码咖啡 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/RecyclerView/" rel="tag"># RecyclerView</a>
+          
+            <a href="/tags/刷新/" rel="tag"># 刷新</a>
+          
+            <a href="/tags/崩溃/" rel="tag"># 崩溃</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/6526852/" rel="next" title="私人订制Android本地图片选择器">
+                <i class="fa fa-chevron-left"></i> 私人订制Android本地图片选择器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/12/8540332/" rel="prev" title="是时候来一波Android Studio与Genymotion的配置了">
+                是时候来一波Android Studio与Genymotion的配置了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/my_avatar.jpg"
+               alt="代码咖啡" />
+          <p class="site-author-name" itemprop="name">代码咖啡</p>
+           
+              <p class="site-description motion-element" itemprop="description">一名默默无闻的程序猿的日常博客分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dmkf1024" target="_blank" title="Github">
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/9b87ba5fc959" target="_blank" title="简书">
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://runnerwoo.com/" title="RunnerWoo's Blog" target="_blank">RunnerWoo's Blog</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://best8023.com/" title="隔壁老王的小窝" target="_blank">隔壁老王的小窝</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/uwyc/" title="uwyc" target="_blank">uwyc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#崩溃再现"><span class="nav-number">1.</span> <span class="nav-text">崩溃再现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#报错信息"><span class="nav-number">2.</span> <span class="nav-text">报错信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寻找解决方法"><span class="nav-number">3.</span> <span class="nav-text">寻找解决方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#找到真正原因"><span class="nav-number">4.</span> <span class="nav-text">找到真正原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">代码咖啡</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2127199"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("UEpC7FFQeyh4QE8f9cF7OGa0-gzGzoHsz", "o5pavJ8YufIWwhsbQjU1NaYO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

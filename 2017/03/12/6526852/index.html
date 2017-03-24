@@ -1,0 +1,1079 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,图片,选择器," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="程序员技术栈" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/my_avatar.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="效果图
+需求分析
+网格布局显示本地图片
+支持图片多选
+支持选中的图片预览
+未选择图片时不可预览
+由已选多图变为无图时可退出图片选择页面
+图片已选达到上限后依然可以跳转图片选择页面
+
+第三方框架使用史上最强的安卓图片选择器——GalleryFinal;简书博客地址——http://www.jianshu.com/p/48ddd6756b7a
+实现目标应用并修改第三方框架GalleryFinal源码，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="私人订制Android本地图片选择器">
+<meta property="og:url" content="http://inerdstack.com/2017/03/12/6526852/index.html">
+<meta property="og:site_name" content="程序员技术栈">
+<meta property="og:description" content="效果图
+需求分析
+网格布局显示本地图片
+支持图片多选
+支持选中的图片预览
+未选择图片时不可预览
+由已选多图变为无图时可退出图片选择页面
+图片已选达到上限后依然可以跳转图片选择页面
+
+第三方框架使用史上最强的安卓图片选择器——GalleryFinal;简书博客地址——http://www.jianshu.com/p/48ddd6756b7a
+实现目标应用并修改第三方框架GalleryFinal源码，">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-1b852dc10cbe19f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-de58119e5e1fbe13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-dcad91a51f4e0c2d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-9aeefa41f8d6df9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-cf91728824793915.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-b0fe0f3489427bf0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-b7a1ecd660e7de71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-1b98edbcdb52b2ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-2612a6634da1b557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-f402557aa63c771a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-888937d745c57d5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-6414109debf727e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-0e304a471a00c173.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-13T04:04:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="私人订制Android本地图片选择器">
+<meta name="twitter:description" content="效果图
+需求分析
+网格布局显示本地图片
+支持图片多选
+支持选中的图片预览
+未选择图片时不可预览
+由已选多图变为无图时可退出图片选择页面
+图片已选达到上限后依然可以跳转图片选择页面
+
+第三方框架使用史上最强的安卓图片选择器——GalleryFinal;简书博客地址——http://www.jianshu.com/p/48ddd6756b7a
+实现目标应用并修改第三方框架GalleryFinal源码，">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/291600-1b852dc10cbe19f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '9H73M7ES5Q',
+      apiKey: '5bdda6a6d6df043cbc55f465ced585eb',
+      indexName: 'dmkf_NAME',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词进行搜索","hits_empty":"找不到关于“ ${query} ”的文章","hits_stats":"共找到 ${hits} 篇文章，花了 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inerdstack.com/2017/03/12/6526852/"/>
+
+
+
+
+
+  <title> 私人订制Android本地图片选择器 | 程序员技术栈 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9f7703d3d6a68b41a2f2ca3ab2676142";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序员技术栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://inerdstack.com/2017/03/12/6526852/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="代码咖啡">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员技术栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                私人订制Android本地图片选择器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T16:15:01+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android从入门到炸机/" itemprop="url" rel="index">
+                    <span itemprop="name">Android从入门到炸机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/12/6526852/" class="leancloud_visitors" data-flag-title="私人订制Android本地图片选择器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-1b852dc10cbe19f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果图"></p>
+<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><ul>
+<li>网格布局显示本地图片</li>
+<li>支持图片多选</li>
+<li>支持选中的图片预览</li>
+<li>未选择图片时不可预览</li>
+<li>由已选多图变为无图时可退出图片选择页面</li>
+<li>图片已选达到上限后依然可以跳转图片选择页面</li>
+</ul>
+<h1 id="第三方框架使用"><a href="#第三方框架使用" class="headerlink" title="第三方框架使用"></a>第三方框架使用</h1><p>史上最强的安卓图片选择器——<a href="https://github.com/pengjianbo/GalleryFinal" target="_blank" rel="external">GalleryFinal</a>;<br>简书博客地址——<a href="http://www.jianshu.com/p/48ddd6756b7a" target="_blank" rel="external">http://www.jianshu.com/p/48ddd6756b7a</a></p>
+<h1 id="实现目标"><a href="#实现目标" class="headerlink" title="实现目标"></a>实现目标</h1><p>应用并修改第三方框架GalleryFinal源码，实现效果图的样式。</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><ul>
+<li><strong>导入GalleryFinal源码</strong><br>从GalleryFinal的Github仓库中拷贝仓库地址，使用git指令cloneGalleryFinal源代码到本地：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/pengjianbo/GalleryFinal.git</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>选择Android Studio菜单栏File-&gt;New-&gt;import Module…，导入GalleryFinal源代码到Android Studio：<br><img src="http://upload-images.jianshu.io/upload_images/291600-de58119e5e1fbe13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="导入GalleryFinal源码"><br>详情参考：<br><a href="http://www.jianshu.com/p/0c808b2ee952" target="_blank" rel="external">【Mac流派】程序猿修炼之道(6)-技能篇之git指令</a><br><a href="http://www.jianshu.com/p/b6c68c50ea19" target="_blank" rel="external">Android Studio导入第三方库的三种方法</a></p>
+<ul>
+<li><strong>写一个GridView</strong><br>这里声明一下，选择图片的Activity是GalleryFinal自带的，所以我们这里要写的GridView是用来显示选中并返回的图片，这里的代码就不放出来了，效果图如下：<br><img src="http://upload-images.jianshu.io/upload_images/291600-dcad91a51f4e0c2d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="未选择时"><br><img src="http://upload-images.jianshu.io/upload_images/291600-9aeefa41f8d6df9c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="选择图片时"><br>本人实现的可支持最大图片数量是5，在图片选满的时候依然显示“+”，用以跳转图片选择页面选择其他图片。</li>
+<li><p><strong>初始化GalleryFinal配置</strong></p>
+<ul>
+<li>通过代码设置图片选择器的标题栏背景颜色，标题文本颜色，浮动按钮颜色；</li>
+<li>通过监听事件，达到滚动时不加载图片，停下来时加载图片，实现优化；</li>
+<li>初始化功能配置；</li>
+</ul>
+<p>为防止代码分开查看导致逻辑的混乱，将上述配置代码一齐贴上，下面的代码可放在跳转图片选择界面的按钮点击事件中。<strong>这里强调一下</strong>：mThemeConfig = new ThemeConfig.Builder() .setTitleBarBgColor等方法传参是整型，但是其传入的是颜色值而非资源文件的id。<br>代码注释较详细，其他不做过多讲解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">// ------- 声明 -------</div><div class="line">// 主题配置</div><div class="line">private ThemeConfig mThemeConfig;</div><div class="line">// 图片加载器</div><div class="line">private cn.finalteam.galleryfinal.ImageLoader mGlidImgLoader;</div><div class="line">// 滚动监听事件</div><div class="line">private PauseOnScrollListener mPauseOnScrollListener;</div><div class="line">// 功能配置</div><div class="line">private FunctionConfig mFunctionConfig;</div><div class="line">// 核心配置</div><div class="line">private CoreConfig mCoreConfig;</div><div class="line">// ------- 实现 -------</div><div class="line">// 获取标题栏背景颜色</div><div class="line">int colorTitleBarBg = ContextCompat.getColor(Activity.this, R.color.titleBarBgColor);</div><div class="line">// 标题栏文字颜色</div><div class="line">int colorTitleBarText = ContextCompat.getColor(Activity.this, R.color.titleBarTextColor);</div><div class="line">// 浮动按钮常规颜色</div><div class="line">int colorFabNormal = ContextCompat.getColor(Activity.this, R.color.color_ffaa2a);</div><div class="line">// 浮动按钮点击颜色</div><div class="line">int colorFabPressed = ContextCompat.getColor(Activity.this, R.color.color_e29428);</div><div class="line">// 标题栏按钮颜色</div><div class="line">int colorTitleBarIcon = ContextCompat.getColor(MainActivity.this, R.color.colorTitleBarIcon);</div><div class="line">// 设置主题</div><div class="line">mThemeConfig = new ThemeConfig.Builder()</div><div class="line">        .setTitleBarBgColor(colorTitleBarBg) // 设置标题栏背景颜色</div><div class="line">        .setTitleBarTextColor(colorTitleBarText)    // 设置标题栏文字颜色</div><div class="line">        .setFabNormalColor(colorFabNormal)  // 设置浮动按钮常规颜色</div><div class="line">        .setFabPressedColor(colorFabPressed)    // 设置浮动按钮点击颜色</div><div class="line">        .setCheckSelectedColor(colorFabNormal)  // 设置选中标记（对勾）的颜色和按钮的颜色相同</div><div class="line">        .setTitleBarIconColor(colorTitleBarIcon) // 设置标题栏按钮颜色</div><div class="line">        .setIconBack(R.drawable.ic_back) // 设置返回按钮</div><div class="line">        .build();</div><div class="line">// 初始化图片加载器</div><div class="line">mGlidImgLoader = new GlideImageLoader();</div><div class="line">// 初始化监听事件</div><div class="line">mPauseOnScrollListener = new GlidePauseOnScrollListener(false, true);</div><div class="line">// 初始化功能配置</div><div class="line">FunctionConfig.Builder funConBuilder = new FunctionConfig.Builder();</div><div class="line">// 设置最多可选择5张照图片</div><div class="line">funConBuilder.setMutiSelectMaxSize(5);</div><div class="line">// 设置图片不可编辑</div><div class="line">funConBuilder.setEnableEdit(false);</div><div class="line">// 设置图片不可旋转</div><div class="line">funConBuilder.setEnableRotate(false);</div><div class="line">// 设置图片不可裁剪</div><div class="line">funConBuilder.setEnableCrop(false);</div><div class="line">// 设置不可通过照相选择照片</div><div class="line">funConBuilder.setEnableCamera(false);</div><div class="line">// 设置添加过滤集合，过滤掉之前选中的图片</div><div class="line">//        funConBuilder.setFilter(mPhotoList);</div><div class="line">// 不过滤图片，而是将之前选中的图片设置为选中状态</div><div class="line">funConBuilder.setSelected(mPhotoList);</div><div class="line">// 设置可预览</div><div class="line">funConBuilder.setEnablePreview(true);</div><div class="line">// 功能配置</div><div class="line">mFunctionConfig = funConBuilder.build();</div><div class="line">// 初始化核心配置</div><div class="line">mCoreConfig = new CoreConfig.Builder(ReportActivity.this, mGlidImgLoader, mThemeConfig)</div><div class="line">        .setFunctionConfig(mFunctionConfig) // 添加功能配置</div><div class="line">        .setPauseOnScrollListener(mPauseOnScrollListener) // 滑动停止加载事件</div><div class="line">        .setNoAnimcation(true) // 无特效动画</div><div class="line">        .build();</div><div class="line">// 实例化</div><div class="line">GalleryFinalGalleryFinal.init(mCoreConfig);</div><div class="line">// 多图片选择打开相册</div><div class="line">GalleryFinal.openGalleryMuti(Constants.REQUEST_CODE_GALLERY, mFunctionConfig,</div><div class="line">        mOnHandlerResultCallback);</div><div class="line">// 初始化图片加载器</div><div class="line">initImageLoader(ReportActivity.this);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 初始化图片加载器</div><div class="line"> *</div><div class="line"> * @param context</div><div class="line"> */</div><div class="line">private void initImageLoader(Context context) &#123;</div><div class="line">    // 图片加载器配置</div><div class="line">    ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(this);</div><div class="line">    // 设置线程优先级</div><div class="line">    config.threadPriority(Thread.NORM_PRIORITY - 2);</div><div class="line">    // 禁止内存缓存</div><div class="line">    config.denyCacheImageMultipleSizesInMemory();</div><div class="line">    // 设置磁盘缓存文件名生成器</div><div class="line">    config.diskCacheFileNameGenerator(new Md5FileNameGenerator());</div><div class="line">    // 设置磁盘缓存大小</div><div class="line">    config.diskCacheSize(20 * 1024 * 1024);</div><div class="line">    // 设置任务进程执行顺序：先进后出</div><div class="line">    config.tasksProcessingOrder(QueueProcessingType.LIFO);</div><div class="line">    // 调试使用，若是发布版，需要移除代码</div><div class="line">    config.writeDebugLogs();</div><div class="line">    // 初始化图片加载器</div><div class="line">    ImageLoader.getInstance().init(config.build());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>选择图片返回的回调实现</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 回调处理</div><div class="line"> */</div><div class="line">private GalleryFinal.OnHanlderResultCallback mOnHandlerResultCallback = new GalleryFinal.OnHanlderResultCallback() &#123;</div><div class="line">    @Override</div><div class="line">    public void onHanlderSuccess(int reqeustCode, List&lt;PhotoInfo&gt; resultList) &#123;</div><div class="line">        // 清除原来列表中的图片</div><div class="line">        mPhotoList.clear();</div><div class="line">        // 返回图片列表</div><div class="line">        mPhotoList.addAll(resultList);</div><div class="line">        // 刷新页面</div><div class="line">        mPhotoAdapter.notifyDataSetChanged();</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public void onHanlderFailure(int requestCode, String errorMsg) &#123;</div><div class="line">        // 错误提示</div><div class="line">        Toast.makeText(Activity.this, errorMsg, Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基于上述代码，可得到效果图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-cf91728824793915.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="初步效果图"></p>
+<h1 id="修改源码"><a href="#修改源码" class="headerlink" title="修改源码"></a>修改源码</h1><p>通过运行调试，发现框架中有些功能与需求不一致，因此我产生了修改源码的想法，总结需要更改的原功能点如下：</p>
+<ul>
+<li>选择完达到上限数量的图片后，无法重新回到图片选择页面<br><img src="http://upload-images.jianshu.io/upload_images/291600-b0fe0f3489427bf0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="选择图片数量达到上限时无法进入图片选择页面"></li>
+<li>无图片选择时，无法点击浮动按钮进行返回<br><img src="http://upload-images.jianshu.io/upload_images/291600-b7a1ecd660e7de71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无图片时无法返回"></li>
+<li>无图片选择时，预览按钮依然存在<br><img src="http://upload-images.jianshu.io/upload_images/291600-1b98edbcdb52b2ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无图片选择时预览按钮依然存在并可以点击"></li>
+</ul>
+<p>针对以上需要修改的功能，源码修改如下：</p>
+<ul>
+<li><em>选择图片到达上限依然可以返回图片选择页面</em><br>因图片选择页面的跳转在openGalleryMuti方法里实现：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 多图片选择打开相册</div><div class="line">GalleryFinal.openGalleryMuti(Constants.REQUEST_CODE_GALLERY, mFunctionConfig, </div><div class="line">       mOnHandlerResultCallback);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>所以我们来看看openGalleryMuti方法的源码：<br><img src="http://upload-images.jianshu.io/upload_images/291600-2612a6634da1b557.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="openGalleryMuti方法源码"><br>可以发现，源码中有这么一个判断逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">if (config.getSelectedList() != null &amp;&amp; config.getSelectedList().size() &gt; config.getMaxSize()) &#123;</div><div class="line">    if(callback != null)&#123;</div><div class="line">        callback.onHanlderFailure(requestCode, mCoreConfig.getContext().getString(R.string.select_max_tips));</div><div class="line">    &#125;</div><div class="line">    return;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其作用是当选中的图片数量超过最大值时，返回打开本地图片选择器失败的提示信息。之前我们提到，需求中我们实际多显示了一张图片：<br><img src="http://upload-images.jianshu.io/upload_images/291600-f402557aa63c771a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="“添加”图片"><br>且在配置的时候传入的是添加了一张图片以后的图片列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 不过滤图片，而是将之前选中的图片设置为选中状态</div><div class="line">funConBuilder.setSelected(mPhotoList);</div></pre></td></tr></table></figure></p>
+<p>所以会导致界面无法跳转，我们有三个策略：<br>1.将多添加的图片放到adapter里面处理，adapter外部保持选中图片数量与选择页面传入图片的数量一致<br>2.setSelected传入图片列表之前将mPhotoList移除多出的图片<br>3.注释掉源码中对图片数量上限的判断</p>
+<ul>
+<li><em>无图选择时，点击浮动按钮可以返回</em><br>可能有人不解，为何不点击标题栏的返回按钮返回而要点击浮动按钮返回？其原因是，若之前我选择好图片，但是想想，现在我不想要选择的图片了，这时候我们想把图片清空掉，这时候需要点击浮动按钮，来更新选中图片的列表。<br>想到这是浮动按钮的点击事件，所以我们到源码的GallerySelectActivity中浮动按钮的事件回调方法中：<br><img src="http://upload-images.jianshu.io/upload_images/291600-888937d745c57d5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浮动按钮点击事件"><br>这段代码仅仅在选中图片的数量大于0的时候才执行操作，所以我们添加一个条件，修改后的代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">if (mSelectPhotoList.size() &gt; 0) &#123;</div><div class="line">    if (!GalleryFinal.getFunctionConfig().isEditPhoto()) &#123;</div><div class="line">        resultData(mSelectPhotoList);</div><div class="line">    &#125; else &#123;</div><div class="line">        toPhotoEdit();</div><div class="line">    &#125;</div><div class="line">&#125; else &#123;</div><div class="line">    // 添加的代码，使未选中图片时也可返回</div><div class="line">    resultData(mSelectPhotoList);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-6414109debf727e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="mSelectPhotoList初始化"><br>考虑到选中图片的列表在声明时已经初始化，所以不用担心图片返回的回调事件传入空指针对象。</p>
+<ul>
+<li><em>未选择图片时不显示预览按钮</em><br>通过布局的id——<strong>iv_preview</strong>在PhotoSelectActivity中查找，在refreshSelectCount方法里找到了对预览按钮可见性的设置：<br><img src="http://upload-images.jianshu.io/upload_images/291600-0e304a471a00c173.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="refreshSelectCount方法源码"><br>从源码中可以看到，预览按钮的可见性判断逻辑仅仅与isEnablePreview有关，而没有和选中的图片数量进行关联，所以我们修改代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public void refreshSelectCount() &#123;</div><div class="line">    mTvChooseCount.setText(getString(R.string.selected, mSelectPhotoList.size(), GalleryFinal.getFunctionConfig().getMaxSize()));</div><div class="line">    if (mSelectPhotoList.size() &gt; 0 &amp;&amp; GalleryFinal.getFunctionConfig().isMutiSelect()) &#123;</div><div class="line">        mIvClear.setVisibility(View.VISIBLE);</div><div class="line">        if (GalleryFinal.getFunctionConfig().isEnablePreview()) &#123;</div><div class="line">            mIvPreView.setVisibility(View.VISIBLE);</div><div class="line">        &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        mIvClear.setVisibility(View.GONE);</div><div class="line">        mIvPreView.setVisibility(View.GONE);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当选中图片列表大小为0的时候，隐藏预览按钮；大于0的时候再根据isEnablePreview()来判断是否显示预览按钮。</p>
+<h1 id="修改布局和代码逻辑"><a href="#修改布局和代码逻辑" class="headerlink" title="修改布局和代码逻辑"></a>修改布局和代码逻辑</h1><p>布局和代码逻辑的修改，其思路与上一节<strong>修改源码</strong>一样，因需求的效果图功能与GalleryFinal的功能基本一致，逻辑上并不需要做很多的修改，而布局的修改仅涉及到ImageButton变成Button，ImageView变成TextView以及控件位置的调整，在关联控件上和点击事件根据id来判断事件处理上做相应修改即可，在此不做赘述。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用GalleryFinal订制属于自己的图片选择器并不难，只需要循着需求的功能点，按照代码的逻辑一点点追踪源码并进行修改订制即可。诚恳地说，GalleryFinal框架的可移植性确实很强，在此推荐大家了解一下！</p>
+<p>本篇文章的Demo已上传<a href="https://github.com/inerdstack/GallerySelector" target="_blank" rel="external">Github</a>，欢迎访问指导！<br>原创不易，转载请注明链接：<a href="http://www.jianshu.com/p/fd5ebfc4725e" target="_blank" rel="external">http://www.jianshu.com/p/fd5ebfc4725e</a>，谢谢！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="代码咖啡 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="代码咖啡 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/图片/" rel="tag"># 图片</a>
+          
+            <a href="/tags/选择器/" rel="tag"># 选择器</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/6981272/" rel="next" title="【Android】手把手教你上滑解锁的效果">
+                <i class="fa fa-chevron-left"></i> 【Android】手把手教你上滑解锁的效果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/12/8060254/" rel="prev" title="当你刷新RecyclerView程序崩掉的时候">
+                当你刷新RecyclerView程序崩掉的时候 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/my_avatar.jpg"
+               alt="代码咖啡" />
+          <p class="site-author-name" itemprop="name">代码咖啡</p>
+           
+              <p class="site-description motion-element" itemprop="description">一名默默无闻的程序猿的日常博客分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dmkf1024" target="_blank" title="Github">
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/9b87ba5fc959" target="_blank" title="简书">
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://runnerwoo.com/" title="RunnerWoo's Blog" target="_blank">RunnerWoo's Blog</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://best8023.com/" title="隔壁老王的小窝" target="_blank">隔壁老王的小窝</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/uwyc/" title="uwyc" target="_blank">uwyc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需求分析"><span class="nav-number">2.</span> <span class="nav-text">需求分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三方框架使用"><span class="nav-number">3.</span> <span class="nav-text">第三方框架使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现目标"><span class="nav-number">4.</span> <span class="nav-text">实现目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具体实现"><span class="nav-number">5.</span> <span class="nav-text">具体实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改源码"><span class="nav-number">6.</span> <span class="nav-text">修改源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改布局和代码逻辑"><span class="nav-number">7.</span> <span class="nav-text">修改布局和代码逻辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">代码咖啡</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2127199"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("UEpC7FFQeyh4QE8f9cF7OGa0-gzGzoHsz", "o5pavJ8YufIWwhsbQjU1NaYO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

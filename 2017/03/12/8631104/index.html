@@ -1,0 +1,1036 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="教程,Android,图片,.9图片," />
+
+
+
+
+
+  <link rel="alternate" href="/rss2.xml" title="程序员技术栈" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/my_avatar.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前情提要
+之前项目中有用到.9图片，因精力有限，一直没有去尝试着弄过。如今因公司发展问题集体裁员，赋闲在家，便抽空简单地了解了一下.9图片的使用，作文如下，以做积累。
+需求概要在Android Studio环境下将PNG图片制作成.9图片，使之实现纯色背景自适应拉伸，图案内容保持原始比例。
+准备素材及工具
+PNG图片一张
+Android Studio
+
+.9.png认知PNG是一种非失真性压缩位图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5分钟教你制作.9图片">
+<meta property="og:url" content="http://inerdstack.com/2017/03/12/8631104/index.html">
+<meta property="og:site_name" content="程序员技术栈">
+<meta property="og:description" content="前情提要
+之前项目中有用到.9图片，因精力有限，一直没有去尝试着弄过。如今因公司发展问题集体裁员，赋闲在家，便抽空简单地了解了一下.9图片的使用，作文如下，以做积累。
+需求概要在Android Studio环境下将PNG图片制作成.9图片，使之实现纯色背景自适应拉伸，图案内容保持原始比例。
+准备素材及工具
+PNG图片一张
+Android Studio
+
+.9.png认知PNG是一种非失真性压缩位图">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-55aebd85920df139.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-ed5f1e05a4d2035e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-af6e15981e57a0c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-de9d485ad835abe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-16abdf3e30c83764.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-1f8aa44bbcbad595.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/840">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-d4226f1f32d3cf9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-cfb1021729ea4d3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-046dff90be00882c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-18fce4ffe316778c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-19c628aa9ac6e52b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-b7b3d0ff5b4fc2e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-02ba293ef730447d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-37e4ccd46dc4e141.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/380">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-0def6c519c9a9361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/291600-66b458ac8f0909f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/840">
+<meta property="og:updated_time" content="2017-03-13T04:19:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5分钟教你制作.9图片">
+<meta name="twitter:description" content="前情提要
+之前项目中有用到.9图片，因精力有限，一直没有去尝试着弄过。如今因公司发展问题集体裁员，赋闲在家，便抽空简单地了解了一下.9图片的使用，作文如下，以做积累。
+需求概要在Android Studio环境下将PNG图片制作成.9图片，使之实现纯色背景自适应拉伸，图案内容保持原始比例。
+准备素材及工具
+PNG图片一张
+Android Studio
+
+.9.png认知PNG是一种非失真性压缩位图">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/291600-55aebd85920df139.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '9H73M7ES5Q',
+      apiKey: '5bdda6a6d6df043cbc55f465ced585eb',
+      indexName: 'dmkf_NAME',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"输入关键词进行搜索","hits_empty":"找不到关于“ ${query} ”的文章","hits_stats":"共找到 ${hits} 篇文章，花了 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inerdstack.com/2017/03/12/8631104/"/>
+
+
+
+
+
+  <title> 5分钟教你制作.9图片 | 程序员技术栈 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9f7703d3d6a68b41a2f2ca3ab2676142";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">程序员技术栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://inerdstack.com/2017/03/12/8631104/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="代码咖啡">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/my_avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="程序员技术栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                5分钟教你制作.9图片
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T16:17:24+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android从入门到炸机/" itemprop="url" rel="index">
+                    <span itemprop="name">Android从入门到炸机</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/03/12/8631104/" class="leancloud_visitors" data-flag-title="5分钟教你制作.9图片">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-55aebd85920df139.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".9图片"></p>
+<p>之前项目中有用到.9图片，因精力有限，一直没有去尝试着弄过。如今因公司发展问题集体裁员，赋闲在家，便抽空简单地了解了一下.9图片的使用，作文如下，以做积累。</p>
+<h1 id="需求概要"><a href="#需求概要" class="headerlink" title="需求概要"></a>需求概要</h1><p>在Android Studio环境下将PNG图片制作成.9图片，使之实现纯色背景自适应拉伸，图案内容保持原始比例。</p>
+<h1 id="准备素材及工具"><a href="#准备素材及工具" class="headerlink" title="准备素材及工具"></a>准备素材及工具</h1><ul>
+<li>PNG图片一张</li>
+<li>Android Studio</li>
+</ul>
+<h1 id="9-png认知"><a href="#9-png认知" class="headerlink" title=".9.png认知"></a>.9.png认知</h1><p>PNG是一种非失真性压缩位图图形文件格式。而.9.png是基于PNG图片，对其进行进行特殊处理，使之实现局部拉伸的图片格式。.9.png可实现两种效果：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-ed5f1e05a4d2035e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="效果1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-af6e15981e57a0c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="效果2"></p>
+<ul>
+<li>作为资源图片纯色部分进行局部拉伸，使图案部分保持原始比例</li>
+<li>作为输入框的背景图片，使图片部分区域拉伸，部分区域实现文本内容的填充</li>
+</ul>
+<h1 id="9图片制作"><a href="#9图片制作" class="headerlink" title=".9图片制作"></a>.9图片制作</h1><ul>
+<li><p><strong>修改图片格式</strong><br>首先找一张普通的png图片，将其导入到Android Studio的drawable目录下。<br><img src="http://upload-images.jianshu.io/upload_images/291600-de9d485ad835abe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="普通png图片"><br>修改其后缀名，由.png改为.9.png。<br><img src="http://upload-images.jianshu.io/upload_images/291600-16abdf3e30c83764.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".9.png图片"><br>双击指定.9格式的png图片，Android Studio右侧显示板会显示如下图编辑面板。<br><img src="http://upload-images.jianshu.io/upload_images/291600-1f8aa44bbcbad595.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/840" alt=".9.png编辑面板"></p>
+</li>
+<li><p><strong>编辑规则</strong><br><img src="http://upload-images.jianshu.io/upload_images/291600-d4226f1f32d3cf9a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片编辑规则"><br>由上图可知，一张图片可分为<strong>上</strong>、<strong>下</strong>、<strong>左</strong>、<strong>右</strong>四条边，其中<strong>上</strong>和<strong>左</strong>是负责编辑图片拉伸区域的，<strong>下</strong>和<strong>右</strong>是负责编辑图片内容填充区域的。那怎么理解呢？首先我们来看看文章一开始的图片《.9图片》，可以看到图片的上边界的左右两端有不太明显的黑线，放大后如下图所示。<br><img src="http://upload-images.jianshu.io/upload_images/291600-cfb1021729ea4d3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片上边界-放大"><br>上边界黑线表示水平方向上，黑线覆盖的区域可以拉伸，同理左边界黑线表示垂直方向上黑线覆盖的区域可以拉伸；对应而言，右边界和下边界分别表示垂直方向上和水平方向上黑线覆盖的区域可以填充内容。那么填充内容是什么意思呢？我们先来看一张图。<br><img src="http://upload-images.jianshu.io/upload_images/291600-046dff90be00882c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自手机QQ"><br>可以从图中看到“<strong>嗯，差不多了</strong>”所占据的区域即填充内容的区域，其对应在背景图<strong>右边界</strong>和<strong>下边界</strong>的区域就是.9图片制作时需要画下的黑线，此黑线用作标记图片文本内容的填充。在水平和竖直方向上，黑线覆盖的区域用于填充文本。</p>
+</li>
+<li><p><strong>绘制操作</strong><br>那么如何绘制出黑线呢？在Android Studio的.9.png绘制面板中可以看到图片的上下左右区域，如下图红色框框区域。<br><img src="http://upload-images.jianshu.io/upload_images/291600-18fce4ffe316778c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="绘制操作"><br>点击任意红色框框区域，按住鼠标进行拖动，可实现黑线绘制。若绘制黑线后需要对黑线覆盖的区域进行调整，可将鼠标移至黑线两段的竖直方向的线，按住鼠标进行拖动可调整黑线的长度（覆盖区域）。<br><img src="http://upload-images.jianshu.io/upload_images/291600-19c628aa9ac6e52b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="绘制操作"><br>点击除黑线的其他区域，如下图红色框框中的区域，可添加新的黑线，对多个区域进行拉伸。<br><img src="http://upload-images.jianshu.io/upload_images/291600-b7b3d0ff5b4fc2e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="绘制操作"><br>绘制完毕后，可实现图片纯色部分拉伸，图案部分保持原始比例。<br><img src="http://upload-images.jianshu.io/upload_images/291600-02ba293ef730447d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340" alt="绘制操作"><br>其效果图如下：<br><img src="http://upload-images.jianshu.io/upload_images/291600-37e4ccd46dc4e141.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/380" alt="纵向适应"><br><img src="http://upload-images.jianshu.io/upload_images/291600-0def6c519c9a9361.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="横向适应"><br>按如上操作，亦可完成之前所述效果2的实现，即：作为文本输入框的背景图片，实现填充内容区域不拉伸，其他区域适应文本内容大小。<br><img src="http://upload-images.jianshu.io/upload_images/291600-66b458ac8f0909f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/840" alt=".9.png实现QQ气泡效果"></p>
+</li>
+</ul>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>实际开发中，美工裁剪好切图后发给开发者的往往是普通图片，如果开发中有使用到.9图片的需求，而读者们若对此不熟悉，此文会是很好的帮助！感谢阅读！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="代码咖啡 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="代码咖啡 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/图片/" rel="tag"># 图片</a>
+          
+            <a href="/tags/9图片/" rel="tag"># .9图片</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/8540332/" rel="next" title="是时候来一波Android Studio与Genymotion的配置了">
+                <i class="fa fa-chevron-left"></i> 是时候来一波Android Studio与Genymotion的配置了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/12/9328642/" rel="prev" title="Android Keystore漫谈">
+                Android Keystore漫谈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/my_avatar.jpg"
+               alt="代码咖啡" />
+          <p class="site-author-name" itemprop="name">代码咖啡</p>
+           
+              <p class="site-description motion-element" itemprop="description">一名默默无闻的程序猿的日常博客分享</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/rss2.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dmkf1024" target="_blank" title="Github">
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/9b87ba5fc959" target="_blank" title="简书">
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://runnerwoo.com/" title="RunnerWoo's Blog" target="_blank">RunnerWoo's Blog</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://best8023.com/" title="隔壁老王的小窝" target="_blank">隔壁老王的小窝</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/uwyc/" title="uwyc" target="_blank">uwyc</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前情提要"><span class="nav-number">1.</span> <span class="nav-text">前情提要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#需求概要"><span class="nav-number">2.</span> <span class="nav-text">需求概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备素材及工具"><span class="nav-number">3.</span> <span class="nav-text">准备素材及工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-png认知"><span class="nav-number">4.</span> <span class="nav-text">.9.png认知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9图片制作"><span class="nav-number">5.</span> <span class="nav-text">.9图片制作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最后"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">代码咖啡</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2127199"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("UEpC7FFQeyh4QE8f9cF7OGa0-gzGzoHsz", "o5pavJ8YufIWwhsbQjU1NaYO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>
