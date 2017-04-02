@@ -8,595 +8,229 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>一名默默无闻的程序猿的日常博客分享</description>
-    <pubDate>Fri, 24 Mar 2017 15:59:21 GMT</pubDate>
+    <pubDate>Sun, 02 Apr 2017 04:09:10 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>听说你PHP配置Composer遇到了一些困境</title>
-      <link>http://inerdstack.com/2017/03/24/10565656/</link>
-      <guid>http://inerdstack.com/2017/03/24/10565656/</guid>
-      <pubDate>Fri, 24 Mar 2017 15:57:30 GMT</pubDate>
+      <title>【门外汉深度学习-7】深度信念网络</title>
+      <link>http://inerdstack.com/2017/04/02/10881655/</link>
+      <guid>http://inerdstack.com/2017/04/02/10881655/</guid>
+      <pubDate>Sun, 02 Apr 2017 04:08:12 GMT</pubDate>
       <description>
       
-        &lt;h1 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h1&gt;&lt;p&gt;最近在写PHP通信接口，涉及到数据库CRUD操作时，觉得PHP原生方法每次都要写SQL语句，效率不高，于是尝试使用Prope
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
       
       </description>
       
-      <content:encoded><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>最近在写PHP通信接口，涉及到数据库CRUD操作时，觉得PHP原生方法每次都要写SQL语句，效率不高，于是尝试使用Propel orm框架，此文记录PHP配置Propel步骤，以作备份。</p>
-<p>PS：其实笔者看了《<a href="http://blog.csdn.net/caleng/article/details/5276500" target="_blank" rel="external">PHP ORM框架Propel VS Doctrine</a>》一文后，感觉Doctrine框架更加丰富。</p>
-<h1 id="写在配置前"><a href="#写在配置前" class="headerlink" title="写在配置前"></a>写在配置前</h1><p>配置需求：</p>
-<ul>
-<li>PHP 5.5或以上</li>
-<li>可支持的数据库（MySQL, MS SQL Server, PostgreSQL, SQLite, Oracle）</li>
-</ul>
-<p>配置Propel有三种途径，分别为：</p>
-<ul>
-<li>Composer管理工具</li>
-<li>Git指令获取</li>
-<li>Tar或Zip压缩包</li>
-</ul>
-<h1 id="Composer"><a href="#Composer" class="headerlink" title="Composer"></a>Composer</h1><p>使用Composer指令需要先下载Composer工具，<a href="http://propelorm.org/documentation/01-installation.html#via-composer" target="_blank" rel="external">Propel官网</a>提供了方法如下，在项目根目录创建一个名为<code>composer.json</code>的文件，在文件中输入内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;require&quot;: &#123;</div><div class="line">        &quot;propel/propel&quot;: &quot;~2.0@dev&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后使用终端（Mac、Linux）或命令行（Windows）在项目根目录下输入指令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// 下载composer.phar</div><div class="line">$ wget http://getcomposer.org/composer.phar</div><div class="line">// 如果没有wget指令，可使用curl指令下载</div><div class="line">$ curl -s http://getcomposer.org/installer | php</div><div class="line">// 通过composer.phar安装composer</div><div class="line">$ php composer.phar</div><div class="line">// 下载composer依赖，其中包括propel</div><div class="line">$ composer install</div></pre></td></tr></table></figure></p>
-<p>但是这种方法会在执行第一条指令时出现<strong>下载中断</strong>情况！笔者尝试翻墙，但还是下载中断，可能与笔者的网速有关，如果读者们遇到这种情况，可以尝试<a href="https://pkg.phpcomposer.com/#how-to-install-composer" target="_blank" rel="external">Composer中国镜像</a>推荐的方法来下载composer。<br>中国镜像推荐的方法是先下载<code>composer-setup.php</code>文件，然后执行该文件下载<code>composer.phar</code>文件，再执行<code>composer.phar</code>文件，安装Composer。这一安装过程通过执行如下指令实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ php -r &quot;copy(&apos;https://getcomposer.org/installer&apos;, &apos;composer-setup.php&apos;);&quot;</div><div class="line">$ php composer-setup.php</div><div class="line">$ php -r &quot;unlink(&apos;composer-setup.php&apos;);&quot;</div></pre></td></tr></table></figure></p>
-<p><strong>但是这里还是有一个坑！！！</strong>当网速不是很给力的时候，第一条指令下载过来的<code>composer-setup.php</code>文件内容是不完整的。如下图所示，左边是不完整的文件内容，右边是完整的文件内容。<br><img src="http://upload-images.jianshu.io/upload_images/291600-738fa7f32b939cd0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="文件内容不完整"><br>当文件内容不完整时，执行第二条指令<code>php composer-setup.php</code>，会出现类似如下错误：<br><img src="http://upload-images.jianshu.io/upload_images/291600-614077b3bdbc771a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="报错信息"><br>因此上述指令中的第一条指令需要换为手动在浏览器搜索栏输入网址<code>https://getcomposer.org/installer</code>下载文件，然后将文件名称更改为<code>composer-setup.php</code>，放入项目根目录，其他两条指令照常执行。<br>通过上述操作可得到<code>composer.phar</code>文件，这时候在项目根目录新建一个名为composer.json的文件，输入内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;require&quot;: &#123;</div><div class="line">        &quot;propel/propel&quot;: &quot;~2.0@dev&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后在该文件中添加国内镜像，添加后的文件内容为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;require&quot;: &#123;</div><div class="line">        &quot;propel/propel&quot;: &quot;~2.0@dev&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;repositories&quot;: &#123;</div><div class="line">        &quot;packagist&quot;: &#123;</div><div class="line">            &quot;type&quot;: &quot;composer&quot;,</div><div class="line">            &quot;url&quot;: &quot;https://packagist.phpcomposer.com&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后执行如下指令来安装Composer：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ php composer.phar</div></pre></td></tr></table></figure></p>
-<p>安装完Composer后，执行下面指令，安装依赖，其中包括Propel：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ composer install</div></pre></td></tr></table></figure></p>
-<p>这时会发现下载速度明显提高了很多，但是还是要提醒读者朋友们，在下载<code>propel/propel</code>的时候，是要等比较久的时间的。至此Composer方式安装Propel的方法讲解完毕。</p>
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>在项目根目录执行指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git://github.com/propelorm/Propel2 vendor/propel</div></pre></td></tr></table></figure></p>
-<p>待下载完成，即可得到Propel。这种方式下载来的Propel是稳定版的，若读者们希望得到最新版的Propel，可到propel目录下执行如下指令来实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ cd myproject/vendor/propel</div><div class="line">$ git pull</div></pre></td></tr></table></figure></p>
-<p>这种方式笔者有尝试过，但是发现会出现<strong>下载中断</strong>的现象！</p>
-<h1 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h1><p>除了上述两种配置方式，还可以通过下载安装包（压缩包）的方式进行配置。在项目根目录中创建<code>vendor</code>文件夹，到该文件夹中执行下载压缩包指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 下载压缩包</div><div class="line">$ wget http://files.propelorm.org/propel-2.0.0.tar.gz</div><div class="line">// 解压压缩包</div><div class="line">$ tar zxvf propel-2.0.0.tar.gz</div><div class="line">// 将解压后的文件重命名为propel</div><div class="line">$ mv propel-2.0.0 propel</div></pre></td></tr></table></figure></p>
-<p>当然读者们也可以通过在浏览器搜索栏直接输入<code>http://files.propelorm.org/propel-2.0.0.tar.gz</code>的方式下载压缩包，然后将压缩包解压到新建的vendor文件夹中。<br>这种配置方式，笔者也有尝试过，但是发现也会存在<strong>下载中断</strong>或<strong>找不到资源</strong>的问题，所以笔者果断回到第一种方式，虽然它麻烦，但是确是可以完整安装配置Propel的方法！</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://pkg.phpcomposer.com/" target="_blank" rel="external">https://pkg.phpcomposer.com/</a><br><a href="http://propelorm.org/documentation/01-installation.html#via-composer" target="_blank" rel="external">http://propelorm.org/documentation/01-installation.html#via-composer</a></p>
-<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>笔者作为PHP初学者，写这样一篇文章多少有“关公门前耍大刀”之意，文中有错误的地方，欢迎在文章下方留言批评指正，感谢阅读！</p>
+      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
+<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-7baff08f5ba6ae70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Okay, so an <strong><em>RBM</em></strong>（Restricted Boltzmann Machine，受限波兹曼机） can extract features and reconstruct inputs…but how exactly does that help with the <strong>vanishing gradient</strong>（消失梯度）? By combining <strong><em>RBMs</em></strong> together and introducing a clever training method, we obtain a powerful new model that finally solves our problem. Let’s now take a look at a <strong>Deep Belief Network</strong>（深度信念网络）.</p>
+<p>Just like the <strong><em>RBM</em></strong>, <strong>Deep Belief Nets</strong> were also conceived by Geoff Hinton as an alternative to <strong>backpropagation</strong>（反向传播）. Because of his accomplishments, he was hired for image recognition work at Google, where a large-scale <strong><em>DBN</em></strong>（Deep Belief Nets）project is currently believed to be in development.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-2f75f9a08f324bb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>In terms of network structure, a <strong><em>DBN</em></strong> is identical to an <strong><em>MLP</em></strong>（Multi-layer Perceptron，多层感知器）. But when it comes to training, they are entirely different. In fact, the difference in training methods is the key factor that enables <strong><em>DBNs</em></strong> to outperform their shallow counterparts.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-b7d5db9a8654d62c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>A <strong>deep belief network</strong> can be viewed as a stack of <strong><em>RBMs</em></strong>, where the hidden layer of one <strong><em>RBM</em></strong> is the visible layer of the one “above” it. A <strong><em>DBN</em></strong> is trained as follows:<br><strong>a)</strong> The first <strong><em>RBM</em></strong> is trained to re-construct its input as accurately as possible.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-1c96aa08cd150c40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p><strong>b)</strong> The hidden layer of the first <strong><em>RBM</em></strong> is treated as the visible layer of the second and the second <strong><em>RBM</em></strong> is trained using the outputs from using the outputs from the first <strong><em>RBM</em></strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-09b73f3625364971.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p><strong>c)</strong> This process is repeated until every layer in the network is trained.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-9b863af94b1c80c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>An important note about a <strong><em>DBN</em></strong> is that each <strong><em>RBM</em></strong> layer learns the entire input. In other kinds of models - like <strong>convolutional nets</strong>（卷积网络） - early layers detect simple patterns and later layers recombine them.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-7e83979257c2fc36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Like in our facial recognition example, the early layers would detect edges in the image, and later layers would use these results to form facial features. A <strong><em>DBN</em></strong>, on the other hand, works globally by fine tuning the entire input in succession as the model slowly improves - kind of like a camera lens slowly focusing a picture. The reason that a <strong><em>DBN</em></strong> works so well is highly technical, but suffice it to say that a stack of <strong><em>RBMs</em></strong> will outperform a single unit - just like a <strong>Multilayer perceptron</strong>（多层感知器） was able to outperform a single perceptron working alone.</p>
+<p>After this initial training, the <strong><em>RBMs</em></strong> have created a model that can detect inherent patterns in the data. But we still don’t know exactly what the patterns are called. To finish training, we need to introduce labels to the patterns and fine-tune the net with supervised learning. To do this, you need a very small set of labelled samples so that the features and patterns can be associated with a name. The weights and biases are altered slightly, resulting in a small change in the net’s perception of the patterns, and often a small increase in the total accuracy. Fortunately, the set of labelled data can be small relative to the original data set, which as we’ve discussed, is extremely helpful in real-world applications.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-5d790f31f280a822.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Have you ever trained a <strong>Deep Belief Network</strong> before? If so, please comment and share your experiences.</p>
+<p>So let’s recap the benefits of a <strong>Deep Belief Network</strong>. We saw that a <strong><em>DBN</em></strong> only needs a small labelled data set, which is important for real-world applications. The training process can also be completed in a reasonable amount of time through the use of GPUs. And best of all, the resulting net will be very accurate compared to a shallow net, so we can finally see that a <strong><em>DBN</em></strong> is a solution to the <strong>vanishing gradient</strong> problem!</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-58db0cd067315198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Now that we’ve covered the <strong>Deep Belief Net</strong>, we can begin to discuss a few other deep learning models and see what kinds of problems they can solve. Let’s jump over to the next video, and take a look at how a <strong>convolutional net</strong> could be trained to recognize different objects in a image.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=E2Mt_7qked0&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;index=7" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/03/24/10565656/#disqus_thread</comments>
+      <comments>http://inerdstack.com/2017/04/02/10881655/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>【干货】2个小时教你搭建并完善hexo博客</title>
-      <link>http://inerdstack.com/2017/03/14/10104719/</link>
-      <guid>http://inerdstack.com/2017/03/14/10104719/</guid>
-      <pubDate>Mon, 13 Mar 2017 16:20:16 GMT</pubDate>
+      <title>【门外汉深度学习-6】受限波兹曼机</title>
+      <link>http://inerdstack.com/2017/04/02/10792711/</link>
+      <guid>http://inerdstack.com/2017/04/02/10792711/</guid>
+      <pubDate>Sun, 02 Apr 2017 04:06:44 GMT</pubDate>
       <description>
       
-        &lt;h1 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h1&gt;&lt;p&gt;几个月前，写过几篇关于&lt;a href=&quot;http://www.jianshu.com/nb/6788181&quot; target=
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
       
       </description>
       
-      <content:encoded><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>几个月前，写过几篇关于<a href="http://www.jianshu.com/nb/6788181" target="_blank" rel="external">Hexo博客搭建的教程</a>，最近几天，发现有很多读者私信我一些Hexo搭建过程中遇到的问题，重新燃起了我对Hexo博客的兴趣，于是花了一两天的时间重新将Hexo博客搭建了一下，并通过配置实现了一些附加功能，写下此篇博客，希望可以帮助读者们深入Hexo博客的使用。</p>
-<p>本篇教程基于NexT主题的博客配置，实现更换主题、评论、打赏等功能，接下来根据这些功能进行分点描述，附上个人博客以供比对参考：<a href="http://dmkf.xyz" target="_blank" rel="external">程序员技术栈</a>。</p>
-<h1 id="搭建基本Hexo博客"><a href="#搭建基本Hexo博客" class="headerlink" title="搭建基本Hexo博客"></a>搭建基本Hexo博客</h1><p>Hexo博客基本搭建参考：《<a href="http://www.jianshu.com/p/e99ed60390a8" target="_blank" rel="external">20分钟教你使用hexo搭建github博客</a>》一文，笔者按照教程的顺序一步一步来，是没有出现错误的，如果读者们在搭建的时候遇到了问题不知如何解决，笔者会尽自己所能帮助读者，并将遇到的问题及解决方法附在文章下方。</p>
-<h1 id="Hexo博客绑定域名"><a href="#Hexo博客绑定域名" class="headerlink" title="Hexo博客绑定域名"></a>Hexo博客绑定域名</h1><p>关于Hexo博客如何绑定自己的域名，详情可参阅《<a href="http://www.jianshu.com/p/cea41e5c9b2a" target="_blank" rel="external">hexo搭建的Github博客绑定域名</a>》一文。</p>
-<h1 id="更换Hexo主题"><a href="#更换Hexo主题" class="headerlink" title="更换Hexo主题"></a>更换Hexo主题</h1><p>笔者更换后的主题为NexT，其Github网址为：<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">https://github.com/iissnan/hexo-theme-next</a> 。首先将NexT的主题源文件下载到本地，使用Git克隆指令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</div></pre></td></tr></table></figure></p>
-<p>下载后，将压缩包解压缩，复制其中名称为<code>next</code>的文件夹到Hexo的主题目录下，主题目录的路径为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hexo博客根目录/themes/</div></pre></td></tr></table></figure></p>
-<p>效果如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-b83b62262041a552.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="NexT主题包"></p>
-<p>在Hexo根目录下有一个以<code>_config.yml</code>命名的文件（下称<strong>站点配置文件</strong>），用Sublime等文本编辑器打开，在其中找到<code>theme</code>属性，将其由<code>landscape</code>改为<code>next</code>。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-e53768fa6014081b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改主题"></p>
-<p>然后在Hexo根目录执行<strong>部署Hexo</strong>指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 清理缓存</div><div class="line">hexo clean</div><div class="line">// 生成文件</div><div class="line">hexo generate</div><div class="line">// 部署</div><div class="line">hexo deploy</div></pre></td></tr></table></figure></p>
-<p>便可以在远程的博客上看到修改主题后的样式了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-a98ec710fd6b30b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="NexT主题样式"></p>
-<h1 id="设置Hexo主题模式"><a href="#设置Hexo主题模式" class="headerlink" title="设置Hexo主题模式"></a>设置Hexo主题模式</h1><p>看到上图，读者可能会产生疑问，为什么自己的主题样式和笔者的不一样，这是因为在Hexo主题中，有三种不同的模式，通过切换模式，让NexT主题显示不一样的样式。在NexT根目录下有一个同样名称为<code>_config.yml</code>，为了区分hexo根目录下的<code>_config.yml</code>，将前者称为<strong>主题配置文件</strong>，在其中找到<code>scheme</code>属性，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-6322b239804a6b9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="scheme属性"></p>
-<p>NexT主题默认使用<code>Muse</code>模式，读者可根据自己的喜好，选择其中一种模式。</p>
-<h1 id="设置预览摘要"><a href="#设置预览摘要" class="headerlink" title="设置预览摘要"></a>设置预览摘要</h1><p>设置完模式后，读者们会发现，尽管首页显示的是所有文章的列表，但是每一篇文章都显示了所有内容，这样感觉看起来不舒服，这时候可以启用预览摘要模式，在<strong>主题配置文件</strong>中找到<code>auto_excerpt</code>属性，将<code>enable</code>设置为<em>true</em> ，将<code>length</code>设置为想要预览到的字数，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-1abc682d4f4c9d0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置预览摘要"></p>
-<p>设置完毕后，调用<strong>部署指令</strong>，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 清理缓存</div><div class="line">hexo clean</div><div class="line">// 生成文件</div><div class="line">hexo generate</div><div class="line">// 部署</div><div class="line">hexo deploy</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p><strong>这里说明一下</strong>：上述的部署指令中<code>hexo deploy</code>可以换成<code>hexo server</code>，两者的区别在于，前者是将博客部署到远程的Github上，而后者是运行在本地，通过<code>http://localhost:4000</code>在浏览器中访问。后者是为了调试配置方便而使用，但是最终本地博客还是需要<code>hexo deploy</code>指令将其部署至Github上。</p>
-</blockquote>
-<h1 id="添加评论功能"><a href="#添加评论功能" class="headerlink" title="添加评论功能"></a>添加评论功能</h1><p>NexT目前出到5.1.0版本，功能模块已经相当的丰富。NexT主题集成了评论系统，只需要设置相关的属性即可实现功能，其目前支持<strong>多说</strong>、<strong>Disqus</strong>、<strong>Facebook评论</strong>、<strong>Hyper评论</strong>、<strong>网页云跟帖</strong>等，其中“多说”是NexT推荐的评论系统，但是多说评论系统不稳定，经常会出现服务异常的问题，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-aae8029a499ce300.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt="“多说”服务异常"></p>
-<p>所以笔者查阅了网上，找到了另一款名为<strong>友言</strong>的评论系统，它也是NexT已经集成好的，可以直接拿来用的。下面对其操作进行讲解：</p>
-<ul>
-<li><p><strong>注册友言账号</strong><br>打开<a href="http://www.uyan.cc/" target="_blank" rel="external">友言官网</a>，单击“注册”按钮后，按照套路可完成账号注册。</p>
-</li>
-<li><p><strong>获取uid</strong><br>注册完登录后，在首页单击“后台管理”按钮进入后台界面便可看到自己的用户ID，将其复制下来。<br><img src="http://upload-images.jianshu.io/upload_images/291600-d01c7b97bd74641f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300" alt="获取uid"></p>
-</li>
-<li><p><strong><em>主题配置文件</em> 设置uid</strong><br>打开<strong>主题配置文件</strong>，在其中找到属性<code>youyan_uid</code>，然后在<code>:</code>后添加之前复制的uid，如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-b4fe31987d2d2820.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
-<blockquote>
-<p><strong>这里强调一下</strong>：所有属性的设置，其<code>:</code>后必须有一个空格。</p>
-</blockquote>
-<p>然后部署一下Hexo，可以在本地或远程看到实现的评论功能，如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-7c3ee709ce89010e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/400" alt="友言评论功能"><br>在笔者配置评论功能的时候，笔者遇到了一个问题：<em>本地博客有评论功能，而远程博客却没有</em> 。折腾了一下午，始终不知道其原因所在。后来，当笔者对博客绑定自己的域名后，发现远程的博客自动出现了评论功能，这里不清楚是<em>域名的缘故</em> 还是<em>网络延迟</em> 的缘故。若读者们遇到这个情况，可以放放，先配置其他功能。</p>
-</li>
-</ul>
-<h1 id="添加打赏功能"><a href="#添加打赏功能" class="headerlink" title="添加打赏功能"></a>添加打赏功能</h1><p>打赏是读者对笔者支持的最大动力，作为经常写博客的笔者来说，打赏功能如果在自己的博客中出现，那真的是求之不得呀（虽然基本不会有人来打赏）！而NexT正好集成了打赏的功能，其实现的思路是放上收款二维码，让读者扫码后支付。笔者添加了微信支付和支付宝支付，所以以此为例：</p>
-<ul>
-<li><p><strong>获取微信收款二维码</strong><br>微信二维码的获取途径还是比较容易的，按照<a href="http://jingyan.baidu.com/article/b907e627b641b646e6891c6b.html" target="_blank" rel="external">这个教程</a>即可实现，读者们也可以预先设置收款的金额。</p>
-</li>
-<li><p><strong>获取支付宝收款二维码</strong><br>笔者上网查了很多关于支付宝收款二维码的相关信息，奈何得到的结果不是版本不一致就是商家认证，找了好久，终于找到一个符合要求的<a href="http://blog.csdn.net/china8848/article/details/53504223" target="_blank" rel="external">教程</a>，读者们可别被“商家平台”这几个字吓到了，普通用户一样可以开通，且不需要相关证件的认证，读者们可根据这个教程获得自己的支付宝收款二维码。</p>
-</li>
-<li><p><strong>添加二维码图片资源</strong><br>得到二维码图片资源后，读者们可将二维码图片放到<code>NexT根目录/source/images/</code>文件夹下。</p>
-</li>
-<li><p><strong>开启打赏功能</strong><br>找到<strong>主题配置文件</strong>，在其最后添加打赏的配置信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">reward_comment: 坚持原创技术分享，您的支持将鼓励我继续创作！</div><div class="line">wechatpay: 图片链接或图片相对路径</div><div class="line">alipay: 图片链接或图片相对路径</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>其信息如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-406e48d89492c2a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="开启打赏功能"></p>
-<p>然后部署一下Hexo，便可实现打赏功能，效果图如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-873b0d38fcc6adfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="打赏功能效果图"></p>
-<h1 id="设置侧边栏显示效果"><a href="#设置侧边栏显示效果" class="headerlink" title="设置侧边栏显示效果"></a>设置侧边栏显示效果</h1><p>鉴于个人喜好，笔者不是很喜欢在打开一篇文章的时候，刚想好好品读，却因为侧边栏的出现扰乱视觉，所以想对其进行设置。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-3e0dec2281c46e83.gif?imageMogr2/auto-orient/strip" alt="侧边栏在文章加载好时出现"></p>
-<p>在<strong>主题配置文件</strong>中，找到<code>sidebar</code>的<code>display</code>属性，<code>display</code>属性有四种显示模式：分别为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">post    // 默认显示方式</div><div class="line">always  // 一直显示</div><div class="line">hide    // 初始隐藏</div><div class="line">remove  // 移除侧边栏</div></pre></td></tr></table></figure></p>
-<p>笔者将其设置为<code>hide</code>模式，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-19c1082a43fbac79.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设置侧边栏显示效果"></p>
-<p>读者们可根据个人喜好进行设置。</p>
-<h1 id="添加菜单选项"><a href="#添加菜单选项" class="headerlink" title="添加菜单选项"></a>添加菜单选项</h1><p>默认情况下，菜单导航栏有<strong>首页</strong>、<strong>归档</strong>、<strong>关于</strong>三个选项，除此之外笔者还添加了<strong>分类</strong>、<strong>标签</strong>和<strong>关于</strong>。在<strong>主题配置文件</strong>中，找到<code>menu</code>属性，并去掉<code>categories</code>、 <code>tags</code>、<code>about</code>的的注释，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-6c0f70e126d3d214.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="菜单选项设置"></p>
-<p>然后在Hexo根目录执行指令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 添加分类页面</div><div class="line">hexo new page &quot;categories&quot;</div><div class="line">// 添加标签页面</div><div class="line">hexo new page “tags”</div><div class="line">// 添加关于页面</div><div class="line">hexo new page &quot;about&quot;</div></pre></td></tr></table></figure></p>
-<p>执行完上述指令后，在<code>Hexo根目录/source/</code>文件夹下创建三个文件夹，命名分别为：categories、tags、about文件夹，在这些文件夹中分别会创建一个以<code>index</code>命名的Markdown文件，对这三个Markdown文件内容进行修改，使之分别为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: categories</div><div class="line">date: 2017-03-12 22:06:24</div><div class="line">type: &quot;categories&quot;</div><div class="line">---</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 标签</div><div class="line">date: 2017-03-12 17:27:16</div><div class="line">type: &quot;tags&quot;</div><div class="line">---</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: about</div><div class="line">date: 2017-03-12 22:07:26</div><div class="line">type: &quot;about&quot;</div><div class="line">---</div></pre></td></tr></table></figure>
-<p>完成文件的修改，然后部署Hexo即可完成菜单选项的添加。</p>
-<h1 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-39c0a90a589b5ed4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt="导航菜单栏"></p>
-<p>完成了上述菜单选项的添加后，读者们可以看到菜单栏中还有<strong>搜索</strong>一项，搜索的功能源于第三方服务——<strong>Algolia</strong>，接下来看看配置的步骤：</p>
-<ul>
-<li><strong>注册Algolia，创建Index</strong><br>在<a href="https://www.algolia.com/" target="_blank" rel="external">Algolia官网</a>注册一个账户，完成账户注册后，创建一个Index，如下图：<br><img src="http://upload-images.jianshu.io/upload_images/291600-7d845e9f7813684a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/500" alt="创建Index"></li>
-<li><strong>安装Hexo Algolia</strong><br>在Hexo根目录执行如下指令，进行Hexo Algolia的安装：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save hexo-algolia</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>执行完指令后，读者们可能会发现安装失败，或发现安装成功后实现的搜索功能可以搜索但是不可以点击搜索到的文章，这是因为5.1.0版本NexT在<code>package.json</code>文件的配置中存在错误。<br>到Hexo的根目录，在其中找到<code>package.json</code>文件，修改其中的<code>hexo-algolia</code>属性值为<code>^0.2.0</code>，如下图所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-80a532accf68abe8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改package.json文件"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;hexo-algolia&quot;: &quot;^0.2.0&quot;</div></pre></td></tr></table></figure></p>
-<p>然后再执行上述的安装指令。</p>
-<ul>
-<li><strong>获取Key，修改站点配置</strong><br>完成Hexo Algolia后，回到Algolia官网的Dashboard，在左侧导航栏选择API Keys一项，跳转到如下图所示的页面。</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-2f482b12b6e5ed3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="获取Key"></p>
-<p>基于这个页面的Key，编辑<strong>站点配置文件</strong>，在文件内容最后添加如下图所示的信息，包括 <code>ApplicationID</code>、<code>Search-Only API Key</code>、 <code>Admin API Key</code>和<code>indexName</code>，其中<code>apiKey</code>就是<code>Search-Only API Key</code>：<br><img src="http://upload-images.jianshu.io/upload_images/291600-db3e4570db72fe5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Algolia配置信息"></p>
-<ul>
-<li><strong>更新Index</strong><br>配置好Key后，在Hexo根目录执行<code>hexo algolia</code>来更新Index，若出现如下图所示，则表示更新成功：</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-f76e6a040c19eef5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="更新Index"><br>若更新失败，则返回上面<strong>安装Hexo Algolia</strong>的步骤，查看一下hexo-algolia是否安装成功，并核实一下package.json信息是否正确。</p>
-<ul>
-<li><strong>启用配置搜索功能</strong><br>修改<strong>主题配置文件</strong>，在其中找到<code>algolia_search</code>属性，将其<code>enable</code>子属性改为<code>true</code>，然后再看其<code>labels</code>子属性，修改相应的提示文本，使之更加适合自己的风格，属性配置如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-e3bffdb065acdff8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启用配置搜索功能"></li>
-</ul>
-<p>经过上述的操作后，部署Hexo，便可在博客中添加搜索功能，其效果图如下：<br><img src="http://upload-images.jianshu.io/upload_images/291600-20222e583f1f4c61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="找到搜索结果"><br><img src="http://upload-images.jianshu.io/upload_images/291600-a3c8fd57e38b785c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="未找到搜索结果"></p>
-<h1 id="添加阅读次数统计"><a href="#添加阅读次数统计" class="headerlink" title="添加阅读次数统计"></a>添加阅读次数统计</h1><p>笔者以为，写技术博客一方面作为个人知识积累外，更重要的是让读者通过阅读有所收获，而阅读数量作为一篇文章质量好坏的重要参考因素，可以为作者继续文章创作带来信心。抱着这份理解，笔者给自己的博客添加了查看阅读数量的功能。阅读次数统计是基于第三方服务——<strong>LeanCloud</strong>实现的，其配置详情如下：</p>
-<ul>
-<li><p><strong>创建LeanCloud账号</strong><br>进入<a href="https://leancloud.cn/" target="_blank" rel="external">LeanCloud官网</a>，按照套路完成注册，这里不做赘述。</p>
-</li>
-<li><p><strong>创建应用</strong><br>注册并登录LeanCloud后，进入控制台，单击“创建应用”按钮进行应用的创建，输入新应用名称，选择<strong>开发版</strong>，单击“创建”按钮完成创建，如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-a114303ec633d628.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="创建应用"></p>
-</li>
-<li><p><strong>创建Class</strong><br>进入到刚刚创建的应用中，选择左侧导航栏的“存储”，然后点击“创建Class”，为了与NexT形成配置关系，将Class名称填为<code>Counter</code>，并选择<strong>无限制</strong>选项，然后单击“创建Class”按钮完成Class的创建，如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-47b6f370eeb9384f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="创建Class"><br>点击刚刚创建的Counter，其实质是一张结构表，用来记录文章的浏览量，如下图所示，这里的表可以直接对文章阅读次数进行修改，所以如果想要追求阅读次数的读者可以在表上直接进行修改。<br><img src="http://upload-images.jianshu.io/upload_images/291600-ebe85e15adad1960.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="Counter表"></p>
-</li>
-<li><p><strong>配置Key</strong><br>在左侧导航栏的设置界面，单击“应用Key”可以看到应用的App ID和App Key。<br><img src="http://upload-images.jianshu.io/upload_images/291600-9bfefff56f9884d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="Key"><br>复制ID和Key，然后将其配置到<strong>主题配置文件</strong>中，在文件中找到<code>leancloud_visitors</code>属性，将<code>enable</code>设置为<code>true</code>，然后将之前复制的ID和Key粘贴到相应的属性中。<br><img src="http://upload-images.jianshu.io/upload_images/291600-0a317ed31a11027a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置ID和Key"></p>
-</li>
-</ul>
-<p>至此，阅读次数统计添加完成，其效果图如下所示：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-961cf82d2e506b28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/600" alt="添加阅读次数统计"></p>
-<h1 id="添加RSS"><a href="#添加RSS" class="headerlink" title="添加RSS"></a>添加RSS</h1><p>笔者之前虽听过<strong>RSS</strong>这个名词，但至今不知其为何物、何以用之，望知晓的读者在文章下方留言评论，指点一二。笔者表示对RSS不明觉厉，觉得有必要添加上，提升一下逼格，所以接下来看看RSS功能的添加：</p>
-<ul>
-<li><p><strong>安装 <a href="https://github.com/hexojs/hexo-generator-feed" target="_blank" rel="external">hexo-generator-feed</a> 插件</strong><br>RSS需要有一个Feed链接，而这个链接需要靠hexo-generator-feed插件来生成，所以第一步需要添加插件，在Hexo根目录执行安装指令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-feed --save</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>配置feed信息</strong><br>在<strong>站点配置文件</strong>中追加如下图所示的信息：<br><img src="http://upload-images.jianshu.io/upload_images/291600-48049f258dfded85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RSS配置"><br><code>feed</code>属性下的各个子属性的含义借用feed官方英文解释如下：</p>
-<ul>
-<li>type - Feed type. (atom/rss2)</li>
-<li>path - Feed path. (Default: atom.xml/rss2.xml)</li>
-<li>limit - Maximum number of posts in the feed (Use 0 or false to show all posts)</li>
-<li>hub - URL of the PubSubHubbub hubs (Leave it empty if you don’t use it)</li>
-<li>content - (optional) set to ‘true’ to include the contents of the entire post in the feed.</li>
-</ul>
-</li>
-</ul>
-<p>如此这般，RSS功能添加完成，效果图如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-b978ffc2b560c77c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RSS效果"></p>
-<p>单击RSS按钮，跳转如下界面：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-9038a845d0a855f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RSS跳转结果"></p>
-<h1 id="添加社交链接"><a href="#添加社交链接" class="headerlink" title="添加社交链接"></a><strong>添加社交链接</strong></h1><p>笔者希望在个人博客中加入自己的简书和Github链接以提高访问量，接下来了解一下社交链接如何添加：</p>
-<ul>
-<li><strong>添加链接</strong><br>在<strong>主题配置文件</strong>中找到<code>social</code>属性，在其下方添加社交链接，其格式为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">社交平台名称：链接</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>笔者添加的内容如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-132c68eec03fb97e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加社交链接"></p>
-<ul>
-<li><strong>添加链接图标</strong><br>读者们可根据自己喜好，启用显示链接的图标，链接的图标全部来自于<a href="http://fontawesome.io/" target="_blank" rel="external">Font Awesome</a> ，其配置方式也很简单，在<strong>主题配置文件</strong>中找到<code>social_icons</code>，修改其状态值为<code>true</code>，然后配置对应链接的图标，其格式为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">社交平台名称: Font Awesome中的图标的名字（区分大小写）</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如下图所示：<br><img src="http://upload-images.jianshu.io/upload_images/291600-6996375a604d5e7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加链接图标"><br>如笔者添加的社交链接中有简书，但是Font Awesome平台没有简书的图标，这时候就会显示默认的图标：<br><img src="http://upload-images.jianshu.io/upload_images/291600-f644825841dbb010.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="默认图标"><br>这里笔者遇到了一个问题，就是笔者启用了图标以后，发现不论Font Awesome平台有没有对应的社交平台的图标，最终显示效果都是默认的图标，若遇到相同问题的读者们解决了这个问题，望可以在文章下方评论留言，感谢！</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-d4e04418af8a10d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="全部显示默认图标的社交链接"></p>
-<h1 id="添加友情链接功能"><a href="#添加友情链接功能" class="headerlink" title="添加友情链接功能"></a>添加友情链接功能</h1><p>笔者身边有很多志同道合的好友，也都有用其他博客搭建工具如wordpress、jekyll等来搭建自己的博客，写的文章多了，当然希望可以收获更多的流量，这时候好友之间就会互相帮忙，在自己的博客上添加好友的博客链接。接下来看一下如何实现这个功能：</p>
-<p>在<strong>主题配置文件</strong>中找到<code>links</code>属性，修改<code>links_title</code>属性的值为“友情链接”（也可以是其他文案），然后添加上好友的博客名称和博客地址，其格式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">博客名称: 博客链接</div></pre></td></tr></table></figure></p>
-<p>如下是笔者的配置信息：<br><img src="http://upload-images.jianshu.io/upload_images/291600-2b48ae358539d93f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p>
-<p>配置完成后部署Hexo，即可实现友情链接的效果，附图如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-004e6ede8b77527c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="友情链接"></p>
-<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>其实笔者本篇文章是在阅读完NexT的官方配置文档后编写的，考虑到文档内容较多，且其中很多功能一般用不到，就挑选了其中比较常用的功能。在阅读官方文档的时候，发现文档中有些地方将<strong>主题配置文件</strong>与<strong>站点配置文件</strong>弄混了，因此本篇文章也算是对官方文档中的错误进行更正吧！当然本文肯定有描述不够清楚的地方，读者们有疑问的话，欢迎在文章下方留言，亦可参阅官方文档进行对比配置，最后附上官方文档的链接供读者们参阅：<br><a href="http://theme-next.iissnan.com/" target="_blank" rel="external">http://theme-next.iissnan.com/</a></p>
-<hr>
-<h1 id="疑难解答"><a href="#疑难解答" class="headerlink" title="疑难解答"></a>疑难解答</h1><ul>
-<li><p><strong>密钥生成的位置在哪里？</strong><br>Windows平台：C:/Users/用户名/.ssh/<br>Mac OS平台：~/.ssh/</p>
-</li>
-<li><p><strong>.ssh文件找不到</strong><br>.ssh文件以<code>.</code>开头，在一些操作系统中是隐藏文件，需要将隐藏文件设置可见。</p>
-</li>
-<li><p><strong>npm install时，出现npm error:  RPC failed错误</strong><br>开启翻墙软件，或将重新设置npm镜像为淘宝的npm镜像，修改操作详见：<a href="http://blog.csdn.net/zhy421202048/article/details/53490247" target="_blank" rel="external">http://blog.csdn.net/zhy421202048/article/details/53490247</a></p>
-</li>
-<li><p><strong>执行<code>hexo deploy</code>指令是出现Deployer not found: git错误</strong><br>在终端或命令行执行指令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>然后执行<code>heo deploy</code>指令。</p>
-<ul>
-<li><p><strong>第一次hexo deploy以后，远程的博客报出404错误</strong><br>Github中仓库的命名没有按照<code>Github昵称</code>+<code>.github.io</code>的规则来。</p>
-</li>
-<li><p><strong>hexo deploy以后，远程的博客没有更新</strong><br>原因是部署延迟后执行<code>hexo deploy</code>指令前为执行<code>hexo generate</code>指令。</p>
-</li>
-<li><p><strong>关于<code>hexo</code>指令简写</strong><br>文中提到的<code>hexo</code>指令可以简写，其简写方式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo generate --- hexo g</div><div class="line">hexo deploy --- hexo d</div><div class="line">hexo server --- hexo s</div></pre></td></tr></table></figure></li>
-</ul>
+      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
+<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-a6b12869c3211a56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>So what was it that allowed researchers to overcome the <strong>vanishing gradient</strong> problem? The answer to this question has two parts, the first of which involves a <strong>Restricted Boltzmann Machine</strong>（受限波兹曼机）. This is a method that can automatically find patterns in our data by reconstructing the input. Sounds complicated, but bear with me. We’ll take a closer look.</p>
+<p>Geoff Hinton at the University of Toronto was one of the first researchers to devise a breakthrough idea for training deep nets. His approach led to the creation of the <strong>Restricted Boltzmann Machine</strong>, also known as the <strong><em>RBM</em></strong>. Because of his pioneering work he’s often referred to as one of the father’s of deep learning.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-bc6843948cbcebcf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>An <strong><em>RBM</em></strong> is a shallow, two-layer net; the first layer is known as the visible layer and the second is called the hidden layer. Each node in the visible layer is connected to every node in the hidden layer. An <strong><em>RBM</em></strong> is considered “<strong>restricted</strong>“ because no two nodes in the same layer share a connection. An <strong><em>RBM</em></strong> is the mathematical equivalent of a two-way translator - in the forward pass, an <strong><em>RBM</em></strong> takes the inputs and translates them into a set of numbers that encode the inputs. In the backward pass, it takes this set of numbers and translates them back to form the re-constructed inputs. A well-trained net will be able to perform the backwards translation with a high degree of accuracy. In both steps, the <strong>weights</strong> and <strong>biases</strong> have a very important role. They allow the <strong><em>RBM</em></strong> to decipher the interrelationships among the input features, and they also help the <strong><em>RBM</em></strong> decide which input features are the most important when detecting patterns.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-0884b519dd82b7c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Through several forward and backward passes, an <strong><em>RBM</em></strong> is trained to reconstruct the input data. Three steps are repeated over and over through the training process:<br><strong>a)</strong> With a forward pass, every input is combined with an individual weight and one overall bias, and the result is passed to the hidden layer which may or may not activate. Here’s how it flows for the whole net.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-50ec6218846a61bb.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<p><strong>b)</strong> Next, in a backward pass, each activation is combined with an individual weight and an overall bias, and the result is passed to the visible layer for reconstruction. Here’s how it flows back.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-eab7507ac1781c04.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<p><strong>c)</strong> At the visible layer, the reconstruction is compared against the original input to determine the quality of the result. <strong><em>RBMs</em></strong> use a measure called <strong>KL Divergence</strong> for step c); steps a) thru c) are repeated with varying weights and biases until the input and the re-construction are as close as possible. Have you ever had to train an <strong><em>RBM</em></strong> in one of your own machine learning projects? Please comment and tell me about your experiences.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-e0923f243a68d4e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>An interesting aspect of an <strong><em>RBM</em></strong> is that the data does not need to be labelled. This turns out to be very important for real-world data sets like photos, videos, voices, and sensor data - all of which tend to be unlabelled. Rather than having people manually label the data and introduce errors, an <strong><em>RBM</em></strong> automatically sorts through the data, and by properly adjusting the weights and biases, an <strong><em>RBM</em></strong> is able to extract the important features and reconstruct the input. An important note is that an <strong><em>RBM</em></strong> is actually make decisions about which input features are important and how they should be combined to form patterns. In other words, an <strong><em>RBM</em></strong> is part of a family of feature extractor neural nets, which are all designed to recognize inherent patterns in data. These nets are also called <strong>autoencoders</strong>, because in a way, they have to encode their own structure.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-09ca1c4fe0b95c91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>So we say that an <strong><em>RBM</em></strong> can extract features, but how does that help with the vanishing gradient? We’ll get to the second part of our answer in the next video when we take a look at the <strong>Deep Belief Net</strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=puux7KZQfsE&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;index=6" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/03/14/10104719/#disqus_thread</comments>
+      <comments>http://inerdstack.com/2017/04/02/10792711/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>你不得不知的Markdown语法知识（附：工具推荐）</title>
-      <link>http://inerdstack.com/2017/03/12/5812075/</link>
-      <guid>http://inerdstack.com/2017/03/12/5812075/</guid>
-      <pubDate>Sun, 12 Mar 2017 08:52:16 GMT</pubDate>
+      <title>【门外汉深度学习-5】一个老问题</title>
+      <link>http://inerdstack.com/2017/04/02/10787217/</link>
+      <guid>http://inerdstack.com/2017/04/02/10787217/</guid>
+      <pubDate>Sun, 02 Apr 2017 04:05:38 GMT</pubDate>
       <description>
       
-        &lt;p&gt;前面我们讲到了&lt;strong&gt;&lt;em&gt;使用Markdown在简书上写博客&lt;/em&gt;&lt;/strong&gt; ，这一章节，我们来讲讲Markdown该如何写。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;标题&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
       
       </description>
       
-      <content:encoded><![CDATA[<p>前面我们讲到了<strong><em>使用Markdown在简书上写博客</em></strong> ，这一章节，我们来讲讲Markdown该如何写。</p>
-<blockquote>
-<p><strong>标题</strong></p>
-</blockquote>
-<p>标题可根据字体的大小分为六个级别，分别用若干个<code>#</code>表示。</p>
-<p>【效果】</p>
-<h1 id="这是一级标题"><a href="#这是一级标题" class="headerlink" title="这是一级标题"></a>这是一级标题</h1><h2 id="这是二级标题"><a href="#这是二级标题" class="headerlink" title="这是二级标题"></a>这是二级标题</h2><h3 id="这是三级标题"><a href="#这是三级标题" class="headerlink" title="这是三级标题"></a>这是三级标题</h3><h4 id="这是四级标题"><a href="#这是四级标题" class="headerlink" title="这是四级标题"></a>这是四级标题</h4><h5 id="这是五级标题"><a href="#这是五级标题" class="headerlink" title="这是五级标题"></a>这是五级标题</h5><h6 id="这是六级标题"><a href="#这是六级标题" class="headerlink" title="这是六级标题"></a>这是六级标题</h6><p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># 这是一级标题</div><div class="line">## 这是二级标题</div><div class="line">### 这是三级标题</div><div class="line">#### 这是四级标题</div><div class="line">##### 这是五级标题</div><div class="line">###### 这是六级标题</div></pre></td></tr></table></figure>
-<p>我们也可以使用这样的形式来显示一级标题和二级标题：</p>
-<p>【效果】</p>
-<h1 id="这是一个一级标题"><a href="#这是一个一级标题" class="headerlink" title="这是一个一级标题"></a>这是一个一级标题</h1><h2 id="这是一个二级标题"><a href="#这是一个二级标题" class="headerlink" title="这是一个二级标题"></a>这是一个二级标题</h2><p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">这是一个一级标题</div><div class="line">============================</div><div class="line">这是一个二级标题</div><div class="line">--------------------------------------------------</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>文本</strong></p>
-</blockquote>
-<p>文本的显示形式可分为粗体、斜体两种，通过在文本前后输入若干个<code>*</code>。</p>
-<p>【效果】<br><strong>这是粗体</strong><br><em>这是斜体</em><br><strong><em>这是斜体+粗体</em></strong></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">**这是粗体**</div><div class="line">*这是斜体*</div><div class="line">***这是斜体+粗体***</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>图片</strong></p>
-</blockquote>
-<p>图片的输入语法为：<br>![图片内容](图片链接)</p>
-<p>【效果】</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-f1aa74cf4c14c6c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="我的简书个人主页"></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![我的简书个人主页](http://upload-images.jianshu.io/upload_images/291600-f1aa74cf4c14c6c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>：这里的<code>!</code>、<code>[</code>、<code>]</code>、<code>(</code>、<code>)</code>均为英文输入法，且简书平台Markdown编辑器只要将图片文件拖入输入区域，即可生成Markdown文本，读者们只要修改描述图片的文本即可。</p>
-<p>如果输入的图片链接找不到图片，其效果为：</p>
-<p><img src="aaa" alt="找不到图片了"></p>
-<p>除了静态图片，Markdown支持Gif动图：</p>
-<p>【效果】<br><img src="http://upload-images.jianshu.io/upload_images/291600-3b00271942fef854.gif?imageMogr2/auto-orient/strip" alt="动图效果"></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![动图效果](http://upload-images.jianshu.io/upload_images/291600-3b00271942fef854.gif?imageMogr2/auto-orient/strip)</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>链接</strong></p>
-</blockquote>
-<p>链接的语法与图片类似，只要在图片的基础上去掉<code>!</code>即可。</p>
-<p>【效果】</p>
-<p><a href="http://jianshu.com" target="_blank" rel="external">这个是简书平台的链接</a></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[这个是简书平台的链接](http://jianshu.com)</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>列表</strong></p>
-</blockquote>
-<p>列表可分为<strong>有序列表</strong>和<strong>无序列表</strong>。</p>
-<p><strong>无序列表</strong>可通过在每行文本前输入<code>*</code>、<code>+</code>、<code>-</code>来实现。</p>
-<p>【效果】</p>
+      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
+<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-18f5baa567c324bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>So now you’re probably thinking - wow, deep nets are really great! But why did it take so long for them to become popular? Well as it turns out, when you try to train them with a method called <strong>backpropagation</strong>（反向传播）, you run into a fundamental problem called the <strong>vanishing gradient</strong>（消失梯度）, or sometimes the <strong>exploding gradient</strong>（爆发梯度）. When that happens, training takes too long and the accuracy really suffers. Let’s take a closer look.</p>
+<p>When you’re training a neural net, you’re constantly calculating a cost value. The cost is typically the difference between the net’s predicted output and the actual output from a set of labelled training data. The cost is then lowered by making slight adjustments to the weights and biases over and over throughout the training process, until the lowest possible value is obtained. Here is that forward prop again; and here are the example weights and biases.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-9f1aa39cff6f8bd6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>The training process utilizes something called a <strong>gradient</strong>（梯度）, which measures the rate at which the cost will change with respect to a change in a weight or a bias.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-32682b72029d39d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p><strong>Deep architectures</strong> are your best and sometimes your only choice for complex machine learning problems such as facial recognition. But up until 2006, there was no way to accurately train deep nets due to a fundamental problem with the training process: the <strong>vanishing gradient</strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-51768f97898e6cec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Let’s think of a gradient like a slope, and the training process like a rock rolling down that slope. A rock will roll quickly down a steep slope but will barely move at all on a flat surface. The same is true with the gradient of a deep net. When the gradient is large, the net will train quickly. When the gradient is small, the net will train slowly.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-10dc44a68b2f3eeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Here’s that deep net again.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f662f490a0d10129.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>And here is how the gradient could potentially vanish or decay back through the net. As you can see, the gradients are much small in the earlier layers. As a result, the early layers of the network are the slowest to train. But this is a fundamental problem! The early layers are responsible for detecting the simple patterns and the building blocks -when it came to facial recognition, the early layers detected the edges which were combined to form facial features later in the network. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-4eb36da118574ae0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>And if the early layers get it wrong, the result built up by the net will be wrong as well. It could mean that instead of a face like this, your net looks for this.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-6779922e5ad7b679.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>The process used for training a neural net is called <strong>back-propagation</strong> or <strong>back-prop</strong>（反向传播）. We saw before that <strong>forward prop</strong> starts with the inputs and works forward; <strong>back-prop</strong> does the reverse, calculating the gradient from right to left.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-6f8e9ff65bf631f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>For example, here are 5 gradients, 4 weights and 1 bias. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-23bc396e09d8139f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>It starts with the left and works back through the layers, like so. Each time it calculates a gradient, it uses all the previous gradients up to that point.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-44f697c99f9eabd0.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<p>So, let’s start with that node. That edge uses the gradient at that node. And the next. So far things are simple.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-a2d602cf560907fd.gif?imageMogr2/auto-orient/strip" alt=""></p>
+<p>As you keep going back, things get a bit more complex - that one for example uses a lot of gradients, even though this is a relatively simple net. If your net gets larger and deeper, like this one, it gets even worse.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-de5c3d9af77a018b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>But why is that? Well, a gradient at any point is the product of the previous gradients up to that point. And the product of two numbers between 0 and 1 gives you a smaller number.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-a7a4f7af3c2a6410.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p> Say this rectangle is a one. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-265816c3fc9d282e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Also, say there are two gradients - a fourth - like that</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-e99e26fe47452fe4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
 <ul>
-<li><strong>星号</strong>实现的列表</li>
-<li>记得符号与文本之间有一个<strong>空格</strong></li>
+<li>and a third.</li>
 </ul>
-<ul>
-<li><strong>减号</strong>实现的列表</li>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-b09b63e8b060056c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>If you multiply them, you get a fourth of a third which is a twelfth.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-e27dc07fcdbeaa49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>A fourth of a twelfth is a forty-eighth.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-15d7e3479beea24a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>You can see that numbers keep getting smaller the more you multiply. Have you ever had this issue while training a neural network with <strong>backpropagation</strong>? If so, please comment and let me know your thoughts.</p>
+<p>As a result of all this, <strong>backprop</strong> ends up taking a lot of time to train the net, and the accuracy is often very low.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-64c3c64229a301a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Up until 2006, deep nets were still underperforming shallow nets and other machine learning algorithms. But everything changed after three breakthrough papers published by Hinton, Lecun, and Bengio in 2006 and 2007.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-4391e6c11ad44c66.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>In the next video, we’ll begin taking a closer look at these breakthroughs, starting with the <strong>Restricted Boltzmann Machine</strong>（受限波兹曼机）.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=SKMpmAOUa2Q&amp;index=5&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
+<h1 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h1><ul>
+<li><a href="http://blog.csdn.net/qq_29133371/article/details/51867856" target="_blank" rel="external">关于梯度消失，梯度爆炸的问题</a></li>
+<li><a href="https://my.oschina.net/findbill/blog/529001" target="_blank" rel="external">反向传播（Backpropagation）算法的数学原理</a></li>
+<li><a href="https://www.zhihu.com/question/27239198" target="_blank" rel="external">如何直观的解释back propagation算法？</a></li>
+<li><a href="http://blog.csdn.net/dingchenxixi/article/details/51371641" target="_blank" rel="external">Coursera机器学习-第四周-Neural Network ForwardPropagation</a></li>
 </ul>
-<ul>
-<li><strong>加号</strong>实现的列表</li>
-</ul>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">* **星号**实现的列表</div><div class="line">* 记得符号与文本之间有一个**空格**</div><div class="line">- **减号**实现的列表</div><div class="line">+ **加号**实现的列表</div></pre></td></tr></table></figure>
-<p><strong>有序列表</strong>可通过在每行文本前面输入<code>数字</code>+<code>.</code>+<code>空格</code>来实现。</p>
-<p>【效果】</p>
-<ol>
-<li>第一行<br>这是第一行的内容</li>
-<li>第二行<br>这是第二行的内容</li>
-<li>第三行<br>这是第三行的内容<br>我是占位行</li>
-<li>第四行<br>这是第四行的内容</li>
-</ol>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1. 第一行</div><div class="line">这是第一行的内容</div><div class="line">2. 第二行</div><div class="line">这是第二行的内容</div><div class="line">3. 第三行</div><div class="line">这是第三行的内容</div><div class="line">我是占位行</div><div class="line">4. 第四行</div><div class="line">这是第四行的内容</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>引用</strong></p>
-</blockquote>
-<p><strong>引用</strong>即我们文章中摘抄他人文章中写的内容，其可以通过 <code>&gt;</code>来实现。</p>
-<p>【效果】</p>
-<blockquote>
-<p>这是一段引用文章的文字，此处省略1000字。。。</p>
-</blockquote>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; 这是一段引用文章的文字，此处省略1000字。。。</div></pre></td></tr></table></figure>
-<p>PS: 因引用文本底色与简书默认文本底色色差明显，所以笔者以<strong>引用</strong>作为文章段落的标题以明显区分文章不同部分，<em>纯属个人习惯</em>。</p>
-<blockquote>
-<p><strong>行内代码块</strong></p>
-</blockquote>
-<p><strong>行内代码块</strong>可用于关键字词，将其与普通文本区分开来，其用法为在文字内容开始与结尾添加”`“。</p>
-<p>【效果】</p>
-<p><code>这是行内代码块</code></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">`这是行内代码块`</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>代码块</strong></p>
-</blockquote>
-<p><strong>代码块</strong>实则为行内代码快的扩展，用于将多行代码或文本内容与其他文本内容区分开来，其效果如下：</p>
-<p>【效果】</p>
-<pre><code>public int add(int a, int b) {
-    return a + b;
-}
-</code></pre><p>【插入】</p>
-<p><em>实际输入为每一行代码前面加上4个Tab键或8个空格键。</em></p>
-<p><strong><em>注意</em></strong>：简书的Markdown环境下，多行代码前需留出一个空行才能显示效果！</p>
-<blockquote>
-<p><strong>加强代码块</strong></p>
-</blockquote>
-<p><strong>加强代码块</strong>是代码块的增强版，省去了多行代码每行输入Tab键的烦恼，只要在多行代码的开始和结尾输入”```“即可。</p>
-<p>【效果】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public int add(int a, int b) &#123;</div><div class="line">    return a + b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">public int add(int a, int b) &#123;</div><div class="line">    return a + b;</div><div class="line">&#125;</div><div class="line">` ` ` // 因为结尾的三个`在代码框里不好输入，在`之间用空格隔开，实际没有空格</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>表格</strong></p>
-</blockquote>
-<p>表格的语法主要用到的符号为<code>|</code>、<code>-</code>、<code>:</code>，我们先来看看效果：</p>
-<p>【效果】</p>
-<table>
-<thead>
-<tr>
-<th>默认</th>
-<th style="text-align:center">居中</th>
-<th style="text-align:left">左对齐</th>
-<th style="text-align:right">右对齐</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>换行\n换行失败</td>
-<td style="text-align:center">简书Markdown</td>
-<td style="text-align:left">不支持</td>
-<td style="text-align:right">换行</td>
-</tr>
-<tr>
-<td><em>支持斜体</em></td>
-<td style="text-align:center"><strong>粗体</strong></td>
-<td style="text-align:left"><strong><em>斜体+粗体</em></strong></td>
-<td style="text-align:right"></td>
-</tr>
-<tr>
-<td># 不支持标题</td>
-<td style="text-align:center"><a href="http://jianshu.com" target="_blank" rel="external">支持链接</a></td>
-<td style="text-align:left"><img src="http://img1.imgtn.bdimg.com/it/u=627177226,2113594557&amp;fm=15&amp;gp=0.jpg" alt="支持图片"></td>
-<td style="text-align:right"><code>支持行内代码块</code></td>
-</tr>
-</tbody>
-</table>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">|默认|居中|左对齐|右对齐|</div><div class="line">|--|:-:|:-|-:|</div><div class="line">|换行\n换行失败|简书Markdown|不支持|换行|</div><div class="line">|*支持斜体*|**粗体**|***斜体+粗体***||</div><div class="line">|# 不支持标题|[支持链接](http://jianshu.com)|![支持图片](http://img1.imgtn.bdimg.com/it/u=627177226,2113594557&amp;fm=15&amp;gp=0.jpg)|`支持行内代码块` |</div></pre></td></tr></table></figure>
-<p>读者们可以看到，表格的第一行默认为粗体居中，表格的其他语法，大家看【输入】+实际操作自己体会吧！</p>
-<blockquote>
-<p><strong>删除线</strong></p>
-</blockquote>
-<p>对于线的显示，Markdown也提供了支持，包括：</p>
-<p>【效果】</p>
-<p><del>删除线</del></p>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~~删除线~~</div></pre></td></tr></table></figure>
-<p>以上是笔者针对最最基本的Markdown用法对其进行了罗列，当然读者们也可以在其他平台上看到Markdown更加高阶的用法，如：<a href="https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#fn:footnote" target="_blank" rel="external">cmd Markdown</a>对原声Markdown进行了更进一步的封装和扩展，可支持LaTex、Todo列表、Toc目录、Mermaid 序列图等，Markdown是一个很有意思的工具，感兴趣的读者们可以进行更进一步的探索！</p>
-<blockquote>
-<p><strong>分割线</strong></p>
-</blockquote>
-<p>分割线可使用<code>*</code>、<code>-</code>来实现。</p>
-<p>【效果】</p>
-<hr>
-<hr>
-<p>【输入】</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">***</div></pre></td></tr></table></figure>
-<p><strong>以上是Markdown语法的所有内容，感谢各位读者们的阅读！</strong></p>
-<hr>
-<blockquote>
-<p><strong>附录一 Markdown工具</strong></p>
-</blockquote>
-<p>Markdown工具可分为<strong>在线</strong>和<strong>客户端</strong>两种，接下来笔者带领大家来看看Mac端Markdown熟悉工具。</p>
-<p><strong>【在线】</strong></p>
-<p><strong><em><a href="http://jianshu.com" target="_blank" rel="external">简书</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-486b29859e021c70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自简书"></p>
-<p>读者们，如果你写<strong>简书</strong>还没有用过<strong>Markdown</strong>，笔者强烈推荐你尝试一下，相信你会爱上它的，正如我之前提到过的，Markdown让我放下了CSDN、Lofter的博客平台，提高了我写文章的速度和频率，让我从此痴迷其中！</p>
-<p><strong>简书</strong>设置Markdown编辑器方法如下：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-89e5fc65cf97ad71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自简书"></p>
-<p>点击齿轮图标，进入设置；</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-6248d4b5443b6901.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自简书"></p>
-<p>选择<strong>基础设置</strong>选项，在下方<strong>选择常用的编辑器</strong>选择<code>Markdown</code>，然后点击<code>保存</code>按钮即可；</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-cc0bf1c046d4b055.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自简书"></p>
-<p><strong>简书Markdown</strong>可支持实时预览，这个功能带来了非常棒的用户体验，就好比刚开始学习Html的读者们，每输入一个字符都感觉自己完成了一项成就，<strong><em>赞！</em></strong></p>
-<p><strong><em><a href="https://www.zybuluo.com" target="_blank" rel="external">作业部落</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-db35a832a1ecd54c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自作业部落"></p>
-<p><strong>作业部落</strong>这个名字乍一听，有点学生气，有点小学时候用的错题本的感觉，但是其功能是非常强大的，<strong>支持实时预览</strong>，对Markdown进行了非常<strong>完美的封装</strong>，正如它说的“<strong>Cmd Markdown是世界上最好的Markdown语言</strong>”，用这句话形容它应该是不为过的，我们来看一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">它支持</div><div class="line">1. Todo列表</div><div class="line">2. LaTex公式</div><div class="line">3. 简易流程图</div><div class="line">4. 序列图</div><div class="line">5. 甘特图</div><div class="line">6. TOC目录</div><div class="line">7. 标签分类</div><div class="line">8. 注脚</div><div class="line">9. Mermaid 流程图</div><div class="line">10. Mermaid 序列图</div><div class="line">11. 定义型列表</div><div class="line">12. 内嵌图标</div></pre></td></tr></table></figure>
-<p>可以说，使用Cmd Markdown完成一篇比较专业的学术论文是没问题的。笔者的Markdown语法就是从这里开始起步的，但是它有一个致命的缺点，就是：</p>
-<p><strong>它太完美了，像毒品一样给人致命的依赖，导致一旦转移到其他Markdown平台，用户有一种<code>攀过五岳，从此看其他山都是平地</code>的感觉。</strong></p>
-<p>正因为它封装地太多，在其他Markdown平台，一些功能用不了，所以笔者丢弃了这个<strong><em>毒品</em></strong>，转向更具有普适性的<strong>简书Markdown</strong>。</p>
-<p>PS: 作业部落同时支持客户端，在线同步，可离线保存。</p>
-<p><strong><em><a href="https://maxiang.io" target="_blank" rel="external">马克飞象</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-7299bfc2163bb81a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自马克飞象"></p>
-<p>如果你是<strong>印象笔记</strong>迷，那么<strong>马克飞象</strong>可以说是你的福音了，它支持将文本存到印象笔记，且功能特性与<strong>作业部落</strong>无几，但是有一点让人遗憾的是：</p>
-<p><strong><em>马克飞象是一款收费软件，在10天的试用期结束后，只有通过收费才能继续使用！</em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-22e4e4b56b70be34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自马克飞象客户端"></p>
-<p>PS：同<strong>作业部落</strong>一样，<strong>马克飞象</strong>也支持客户端，支持本地缓存。</p>
-<p><strong><em><a href="http://note.youdao.com" target="_blank" rel="external">有道云笔记</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-ece80fd826efb38f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自有道云笔记"></p>
-<p>或许你听惯了<strong>有道词典</strong>，这个八竿子打不着的<strong>词典</strong>与<strong>Markdown</strong>突然有一天走到一起产生了爱情的火花，诞生出了<strong>有道云笔记</strong>，想想就感觉像<strong><em>吉利收购了沃尔沃</em></strong>，再高端的东西被低端拿下了后多少印象分会大打折扣。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-b9e1cf6d891de5b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自有道云笔记"></p>
-<p>是的！你没看错，这就是有道云笔记，不得不说，<strong>有道</strong>支持<strong>Markdown</strong>确实吸引了不少路人粉。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-2db580ea7b5f9563.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自有道云笔记"></p>
-<p>有一个功能有道云笔记做的确实不错，就是可以<strong>将自己的笔记发布到网上，他人可以像浏览网页一样查看自己的记录</strong>。</p>
-<p><strong><em><a href="http://soft.xiaoshujiang.com" target="_blank" rel="external">小书匠</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-264af054aaa12c24.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自小书匠"></p>
-<p><strong>小书匠</strong>是一款内容丰富的个性化Markdown编辑工具，为什么说它个性化呢？我们来看看它的功能：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">支持：</div><div class="line">1. 全屏预览</div><div class="line">2. 实时可获取html代码</div><div class="line">3. 自定义CSS样式</div><div class="line">4. 多方式预览：普通预览、ppt预览、pdf预览</div><div class="line">5. 多种预览排版方式：上、下、左、右、浮动</div><div class="line">6. 内容可以标题为节点隐藏</div><div class="line">7. 映射关系</div><div class="line">8 大纲查看，自动生成目录</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-902c6f72b766a08c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自小书匠"></p>
-<p><strong>土豪金</strong>配上<strong>经典黑</strong>就足以闪瞎我们凡人的双眸，高逼格、高内涵、<del>高血压</del>高品质的Markdown编辑器，你值得拥有！</p>
-<p>PS：这里强调一下：<strong>小书匠支持windows、Linux、Mac、Web多端编辑！</strong></p>
-<p><strong>【客户端】</strong></p>
-<p>除了以上同时支持客户端的在线Markdown编辑器外，我们来说说其他的客户端Markdown编辑器。</p>
-<p><strong><em><a href="http://25.io/mou/" target="_blank" rel="external">Mou</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-6fccd4a7583f4bef.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自Mou"></p>
-<p><strong>Mou</strong>是笔者尝试的第一款Markdown客户端软件，支持最基本的Markdown语法，界面简洁。因其主题风格不是很心仪，后来笔者将它Kill掉了-_-#，但这并不影响Markdown迷们对它的喜爱！</p>
-<p><strong><em><a href="http://macdown.uranusjr.com" target="_blank" rel="external">MacDown</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-9f3ecabdc091dce1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自MacDown"></p>
-<p><strong>MacDown</strong>是笔者使用Markdown编辑器以来用的最久的一款，其主题样式和预览效果都还是不错的，重要的是：它<strong>开源<em>免费</em></strong>，<strong><em>免费</em></strong>，<strong><em>免费</em></strong>，<strong><em>免费！</em></strong></p>
-<p>但是它有一个不足，就是：一个窗口只能打开一个文件，这就显得比较鸡肋了，后来笔者又将MacDown杀掉了-_-||</p>
-<p><strong><em><a href="https://atom.io" target="_blank" rel="external">Atom</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-ead6377370329138.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自Atom"></p>
-<p><strong>Atom</strong>是一款很强大比较成熟稳定的一款Markdown编辑器，支持多文件显示，文件目录缩进，有丰富的插件，其插件的下载方式为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Preferences-&gt;install-&gt;想要插件的名称-&gt;搜索-&gt;下载</div></pre></td></tr></table></figure>
-<p>然后重启Atom即可，目前笔者正在使用这款APP。</p>
-<p><strong><em><a href="http://www.sublimetext.com" target="_blank" rel="external">Sublime</a></em></strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-fdfb0c42a819590b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自Sublime"></p>
-<p><strong>Sublime</strong>是一款通用型编辑器。<strong>如果说Atom是17世纪的物理牛顿，那么Sublime就是15世纪的全能达芬奇。</strong>之所以提到Sublime，是因为Sublime支持Markdown<strong>插件</strong>，通过安装下载，Sublime也同样可以实现Markdown编辑器的效果，但是它的预览还是挺鸡肋的，它只能像Html一样，在浏览器中预览，而且<strong>不支持实时预览</strong>。但是毕竟是老牌编辑器，强大的通用性让其在编辑器领域鹤立鸡群。</p>
-<p>PS: 本文Markdown工具推荐借鉴自：<a href="http://www.williamlong.info/archives/4319.html" target="_blank" rel="external">好用的Markdown编辑器一览</a>，其中还包括windows端和Linux端的工具推荐，感兴趣可以看一下！</p>
-<p>以上就是笔者对Markdown浏览器的推荐，上述每一张图片（除了Mou）都是都是笔者重新安装APP后截图得到的。嗯！非常实诚的笔者，如今已不多见了，笔者被自己感动到了-_-||</p>
-<p><strong><em>感谢大家的阅读！</em></strong></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/03/12/5812075/#disqus_thread</comments>
+      <comments>http://inerdstack.com/2017/04/02/10787217/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>你不得不知的Git指令</title>
-      <link>http://inerdstack.com/2017/03/12/5965831/</link>
-      <guid>http://inerdstack.com/2017/03/12/5965831/</guid>
-      <pubDate>Sun, 12 Mar 2017 08:49:21 GMT</pubDate>
+      <title>【门外汉深度学习-4】深度网络的选择</title>
+      <link>http://inerdstack.com/2017/04/02/10765634/</link>
+      <guid>http://inerdstack.com/2017/04/02/10765634/</guid>
+      <pubDate>Sun, 02 Apr 2017 04:03:54 GMT</pubDate>
       <description>
       
-        &lt;h1 id=&quot;Git常用命令速查表&quot;&gt;&lt;a href=&quot;#Git常用命令速查表&quot; class=&quot;headerlink&quot; title=&quot;Git常用命令速查表&quot;&gt;&lt;/a&gt;Git常用命令速查表&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;http://upload-images.jianshu
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
       
       </description>
       
-      <content:encoded><![CDATA[<h1 id="Git常用命令速查表"><a href="#Git常用命令速查表" class="headerlink" title="Git常用命令速查表"></a>Git常用命令速查表</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-2a9d3e2e5ab123b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片盗自简书用户[*HalShaw*](http://www.jianshu.com/users/1d69810aa9f0)"></p>
-<p>这张表包含了大部分我们上传项目代码时用到的命令，但是毫无头绪地查看这张表，对于我们未接触过Git的读者们来说肯定是无从下手的，所以我们按照上传一个项目的流程过一下我们使用的Git命令。</p>
-<h1 id="上传代码流程"><a href="#上传代码流程" class="headerlink" title="上传代码流程"></a>上传代码流程</h1><ul>
-<li><strong>注册Github账号</strong><br><img src="http://upload-images.jianshu.io/upload_images/291600-9378ea1489257a9e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注册Github账号"></li>
+      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
+<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p><img src="http://upload-images.jianshu.io/upload_images/291600-619b127bca41e211.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Now if you’re like me, starting a Deep Learning project sounds really exciting. But when it comes to picking the right kind of net to use, well, things can get a little confusing. You first need to decide if you’re trying to build a classifier or if you’re trying to find patterns in your data. Beyond that, I’ll try to help by giving you some general guidelines.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-76939354a6feb347.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Before we get started, I want to give you a bit of a heads up. I’m going to be using some terminology that may sound a little scary right now, but don’t worry. I’ll cover all these terms in detail in the upcoming videos. If you’re interested in unsupervised learning - that is, you want to extract patterns from a set of unlabelled data - then your best bet is to use either a <strong>Restricted Boltzmann Machine</strong>（受限波兹曼机）, or an <strong>autoencoder</strong>（自编码器）. What type of projects would you need to use a Deep Net for? Please comment and let me know your thoughts.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-7884bb2e63a021b2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>If you have labeled data for supervised learning and you want to build a classifier, you have several different options depending on your application.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-823c5c38d048857c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>For text processing tasks like sentiment analysis, parsing, and named entity recognition - use a <strong>Recurrent Net</strong> or a <strong>Recursive Neural Tensor Network</strong>（递归神经张量网络）,  which we’ll refer to as an <strong><em>RNTN</em></strong>. For any language model that operates on the character level, use a <strong>Recurrent Net</strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-b1a4ef267c3ec0cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>For image recognition, use a <strong>Deep Belief Network</strong>（深度信念网络） or a <strong>Convolutional Net</strong>（卷积网络）.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-497cefdaca33e995.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>For object recognition, use a <strong>Convolutional Net</strong> or an <strong><em>RNTN</em></strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-fe7fb3ba4da4746e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Finally, for speech recognition, use a <strong>Recurrent Net</strong>.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-7864a9362e15672b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Ingeneral, <strong>Deep Belief Networks</strong> and <strong>Multilayer Perceptrons</strong>（多层感知机） with rectified linear units - also known as <strong><em>RELU</em></strong> - are both good choices for classification. For time series analysis, it’s best to use a <strong>Recurrent Net</strong>. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-edc84d593ae3c095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Deep Nets are the current state of the art in pattern recognition, but it’s worth noting that neural nets have been around for decades.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-da7f39818a2bacf7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p> So you might be wondering: why did it take almost 50 years for Deep Nets to come on to the scene? Well, as it turns out, Deep Nets are very hard to train, which we will see in the next video.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=JjZDoojyzXQ&amp;index=4&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
+<h1 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h1><ul>
+<li><a href="http://www.cnblogs.com/kemaswill/p/3266026.html" target="_blank" rel="external">Deep Belief Network简介</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_69e2aa270102ygvh.html" target="_blank" rel="external">CNN&amp;RELU&amp;POOL 感觉没有比这篇文章讲的更详细了</a></li>
 </ul>
-<p>点击<a href="https://github.com/join?source=header-home" target="_blank" rel="external">这里</a>进行账号的注册，注册过程在此不做过多讲解，各位读者们按照套路来即可。</p>
-<ul>
-<li><p><strong>新建Github仓库</strong><br><img src="http://upload-images.jianshu.io/upload_images/291600-2a347bace9ad7467.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新建Github仓库"><br>这里的仓库指的就是Github网站上存放代码的地方，点击<a href="https://github.com/new" target="_blank" rel="external">这里</a>新建我们的项目，按套路填写项目的相关信息，这里提一点：<br>新建项目时有一个<strong>Initialize this repository with a README</strong>选项，如果勾选，会在新建项目过程中生成一个<strong>README.md</strong>的文件，md指的是Markdown文件，其作用是对我们的项目进行描述，以比较有名的<strong>ButterKnife</strong>为例，我们看到的下图内容，就是通过README.md文件实现的，它出现在项目根目录中，方便他人对我们的项目进行了解。<br><img src="http://upload-images.jianshu.io/upload_images/291600-06f2a59451417656.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="QQ20161102-2.png"><br>新建完毕后，若出现如下图所示，则我们新建项目完毕，我们可以看到我们的远程（即Github项目网站上的，下同）项目文件结构：<br><img src="http://upload-images.jianshu.io/upload_images/291600-928be475eb3f8c73.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Github项目结构"></p>
-</li>
-<li><p><strong>配置Git命令环境</strong><br>Git命令需要在对应的环境下才能使用，本节我们来下载配置Git命令环境，点击<a href="http://git-scm.com/downloads" target="_blank" rel="external">这里</a>进入Git下载页面进行下载：<br><img src="http://upload-images.jianshu.io/upload_images/291600-30404e246f38dc49.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="git下载页面"><br>下载安装按套路一步一步来，安装完毕后，Git命令环境也就搭建完成了。</p>
-</li>
-<li><p><strong>上传本地工程代码</strong><br>笔者开发安卓，所以上传的代码以安卓工程为例，打开命令行，进入项目根目录，开始如下操作：</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// 进入项目根目录，当前项目名为Mitu，本地项目名和远程仓库的命长可以不一致</div><div class="line">cd /Volumes/J_Eric/J_workRoom/AndroidStudio/MiTu</div><div class="line">// 初始化本地项目的git，会在当前目录下生成一个.git文件夹，所有的git配置都在其中</div><div class="line">git init</div><div class="line">// 建立远程连接，项目连接可在Github相应目录下得到，如下图</div><div class="line">git remote add origin https://github.com/inerdstack/MyFirstProject.git</div><div class="line">// 添加账户信息：账户名</div><div class="line">git config user.name &quot;inerdstack&quot;</div><div class="line">// 添加账户信息：绑定的邮箱</div><div class="line">git config user.email &quot;wjnovember@gmail.com&quot;</div><div class="line">// 添加本地项目文件（夹子）,&quot;.&quot;或&quot;-A&quot;表示添加所有文件</div><div class="line">// 若添加个别文件，可以输入文件路径，多个文件之间以空格隔开</div><div class="line">git add .</div><div class="line">// 添加本次提交描述</div><div class="line">git commit -m &quot;我的第一次提交&quot;</div><div class="line">// 因为我们远程新建项目的时候，自动生成了README.md的文件</div><div class="line">// 所以我们需要将远程的文件先拉到本地，与本地文件进行合并比较</div><div class="line">// master表示项目的分支，默认主分支（master）</div><div class="line">git pull origin master</div><div class="line">// 拉到本地后，进行核查，如果文件不存在冲突，则进行上传，将本地项目推上去</div><div class="line">git push origin master</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-98f7f51eb6b76365.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="得到远程链接"></p>
-<p>至此，我们项目上传完毕，可以在Github网站上看到工程文件：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-e3dc7fc8b2c5dd5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="远程代码"></p>
-<p>上面我们讲解的是HTTPS的上传方式，除此之外，我们还可以使用SSH的方式上传，与HTTPS基本类似，其区别有以下两点：</p>
-<p><strong>1.在git push命令前添加项目的deploy key:</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-d038979e60c3d045.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Add deploy key"></p>
-<p>在Terminal中输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 生成key</div><div class="line">ssh-keygen -t rsa -C &quot;Github的注册邮箱地址&quot;</div><div class="line">// 打开key文件所在的文件夹，默认路径：~/.ssh</div><div class="line">open ~/.ssh</div></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-fd15bf59916887d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=".ssh文件"></p>
-<p>打开id_rsa.pub文件，复制所有内容，进入Github仓库里的Deploy key设置页面，点击<strong>Add deploy key</strong>，在key项粘贴复制的内容，输入好标题（随意输入）点击<strong>Add key</strong>完成key的添加。</p>
-<p><strong>2.git remote add origin链接改为：</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-f47bd3471980c035.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SSH"></p>
-<h1 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h1><p>在实际开发中，开发者会把上线的代码和平时写的代码区分开，这时候需要创建一个分支（注意与默认的主分支master区别开），上线的代码放到主分支上，平时的代码每完成一个模块就会放到新建的分支上。</p>
-<p>创建分支分两部分：</p>
-<p><strong>1. 远程创建分支</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-0f70c61afef5332a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="远程创建分支"></p>
-<p>在远程的项目仓库中，点击branch，在输入框输入新分支的名称，按回车键完成远程分支的创建，新建的分支，其文件目录与创建时master的文件目录一样。</p>
-<p><strong>2. 本地创建分支并上传</strong></p>
-<p>打开Terminal，在本地项目根目录下，实现如下操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 创建一个新的分支</div><div class="line">git checkout -b &quot;debug&quot;</div><div class="line">// 拉分支上的代码到本地，实现代码同步</div><div class="line">git pull origin debug</div><div class="line">// 推本地的代码到远程的分支</div><div class="line">git push origin debug</div></pre></td></tr></table></figure>
-<h1 id="克隆工程"><a href="#克隆工程" class="headerlink" title="克隆工程"></a>克隆工程</h1><p>当工程项目上传Github后，需要在另一台设备上得到项目代码，这时候我们可以使用<strong>克隆</strong>将远程的代码拿到本地，Terminal命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 将远程的仓库克隆到本地</div><div class="line">git clone https://github.com/inerdstack/MyFirstProject.git</div><div class="line">// 若想远程克隆分支上的代码，则添加-b 分支名</div><div class="line">git clone -b debug https://github.com/inerdstack/MyFirstProject.git</div></pre></td></tr></table></figure>
-<p><strong>这里注意一下</strong>：<em>克隆过来的工程文件夹里面是不包含.git文件的，所以克隆过来的项目若要上传Github需要重新按项目上传流程走一遍。</em></p>
-<h1 id="分支合并"><a href="#分支合并" class="headerlink" title="分支合并"></a>分支合并</h1><p>当项目上线时，次分支上的代码会同步到主分支上，我们会用到分支的合并，打开命令行，进行如下操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 将当前分值切换到主分支</div><div class="line">git checkout master</div><div class="line">// 将次分支的文件合并到主分支</div><div class="line">git merge origin/debug</div></pre></td></tr></table></figure>
-<p>笔者使用上述指令合并了分支，但Github上的仓库依然未显示分支合并，debug分支上的文件未同步到主分支，对此表示不解，若各位读者们知晓其中的错误，欢迎指正。对于分支的新建与合并，想要了解更多可点击<a href="https://git-scm.com/book/zh/ch3-2.html" target="_blank" rel="external">这里</a>。</p>
-<p>以上即常用git指令的简单操作，感谢大家的阅读！</p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/03/12/5965831/#disqus_thread</comments>
+      <comments>http://inerdstack.com/2017/04/02/10765634/#disqus_thread</comments>
     </item>
     
     <item>
-      <title>如何写出一篇登得上大雅之堂的技术博客</title>
-      <link>http://inerdstack.com/2017/03/12/7106993/</link>
-      <guid>http://inerdstack.com/2017/03/12/7106993/</guid>
-      <pubDate>Sun, 12 Mar 2017 08:47:46 GMT</pubDate>
+      <title>【门外汉深度学习-3】为什么要深入学习</title>
+      <link>http://inerdstack.com/2017/04/02/10682963/</link>
+      <guid>http://inerdstack.com/2017/04/02/10682963/</guid>
+      <pubDate>Sun, 02 Apr 2017 04:01:56 GMT</pubDate>
       <description>
       
-        &lt;h1 id=&quot;我为什么要写博客？&quot;&gt;&lt;a href=&quot;#我为什么要写博客？&quot; class=&quot;headerlink&quot; title=&quot;我为什么要写博客？&quot;&gt;&lt;/a&gt;我为什么要写博客？&lt;/h1&gt;&lt;p&gt;写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长&lt;
+        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
       
       </description>
       
-      <content:encoded><![CDATA[<h1 id="我为什么要写博客？"><a href="#我为什么要写博客？" class="headerlink" title="我为什么要写博客？"></a>我为什么要写博客？</h1><p>写博客之前，一定要在心里好好地问自己：我为什么要写博客？我记得自己初入简书是受学长<a href="http://www.jianshu.com/users/b5cb28bfb837/top_articles" target="_blank" rel="external">李响同學</a>引导，因其奇佳的段子手天赋引来了诸多粉丝，尤其是《<a href="http://www.jianshu.com/p/f963a4e5e872" target="_blank" rel="external">李响同學 #你的包里有什么</a>》一文，让我感觉此文将其个性展现的淋漓尽致，一时兴起，注册了简书账号，期待着自己有一天也可以像他一样，但是时间一天天的过去，我开始陷入沉思：总不能什么事都不做，坐等粉丝呼呼地来关注我吧！于是我绞尽脑汁，掏出我的“满腹经纶”，终于憋出了《<a href="http://www.jianshu.com/p/9572b2eb4c0a" target="_blank" rel="external">闲谈码农群体的新鸟和老菜鸟</a>》这篇文章，但是总感觉缺了点什么，觉得自己只是为了写文章而写文章，无法将自己心里的东西挖掘出来。在后来两年多的时间里，一路跌跌撞撞将博客写下来，渐渐地找到了答案。写博客，尤其是写技术性的博客，请记住一点：<strong>我不是为了在我的文章数量上+1而写博客！</strong></p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-b75fac4f92d0a592.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="文章数"></p>
-<p>写博客的目的应该是：<em>我在开发过程中遇到了一个问题让我困惑了很久，我查询了网上的资料，结果千篇一律，都没有解决我的问题，最终我通过询问他人、阅读源码、在他人的基础上对问题有了更进了一步的理解，我想把解决方法和他人分享，以免他人遇到相同的问题，继续踩坑，重复制造轮子，所以我要写博客。</em></p>
-<h1 id="写博客前我要准备什么？"><a href="#写博客前我要准备什么？" class="headerlink" title="写博客前我要准备什么？"></a>写博客前我要准备什么？</h1><p>明确了写博客的目的后，我们要开始着手准备用来充实博客内容的素材：</p>
-<ul>
-<li><strong>图</strong><br>图可以包括：<em>效果图、思维导图、示意图</em> 等，若更深一步，可以加入软件工程里的<em>用例图、UML图、静态图、包图、甘特图</em> 等。注意在需要着重讲解或不容易用语言描述的地方一定要加入有意义的图，用以辅助说明。</li>
-<li><p><strong>代码</strong><br>代码可分为完整代码和代码片段。完整代码不宜放入文章内容中，应上传代码仓库，并在文章末尾添加代码仓库链接，方便读者访问；代码片段放入文中， 作具体讲解，片段代码可以像下面一样添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public class Code &#123;</div><div class="line">  // 这里是填写代码的地方，用代码框框起来</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>解决思路</strong><br>解决思路是问题从被发现到寻找答案再到被解决的中心思想，是笔者与读者交流解决问题的心路历程的核心，推荐以线性思维贯穿整篇博客。</p>
-</li>
-</ul>
-<h1 id="文章内容如何排版？"><a href="#文章内容如何排版？" class="headerlink" title="文章内容如何排版？"></a>文章内容如何排版？</h1><p>正式进入写文章阶段，按照问题的解决思路，相信每一位做好充分准备的笔者都能将文章写得很充实，但是充实并不代表能让读者赏心悦目。人靠衣装，文章也要靠排版给读者带来良好的用户体验。简书对于文本编辑提供了两种编辑器：<em>富文本</em> 和<em>Markdown</em> 。这里我是比较推荐使用Markdown的，方便排版，便于引导笔者将注意力更多地放在文本内容编辑上而非对文本样式的控制，接下来讲讲内容该如何排版，排版可从以下几点进行深化：</p>
-<ul>
-<li><p><strong>文字</strong><br>文字大小、字体需统一，对于需要强调的内容可用<strong>粗体</strong>、<em>斜体</em> 来突出，但是不推荐全文大篇幅的粗体斜体，这样会让文章看起来不整洁，不够大气。</p>
-</li>
-<li><p><strong>标题</strong><br>简书的标题和文章内容是分开的，所以这里的标题是段落的小标题，而非文章主标题。段落的标题需要显眼，让人一目了然，对标题的处理常见的方式为：</p>
-<ul>
-<li>加粗、加大字体<br><img src="http://upload-images.jianshu.io/upload_images/291600-ab6300dfc040be61.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="加粗加大的标题"></li>
-<li>使用<em>引用</em>，为标题整行添加背景<br><img src="http://upload-images.jianshu.io/upload_images/291600-c12191db06a83510.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="引用样式的标题"></li>
-</ul>
-</li>
-<li><p><strong>段落</strong><br>段落是一个中心思想的集合，段落之间建议空一行，让文章看起来层次分明；一个小结结束后，段落之间可以添加分割线进行小结的划分，但是极不推荐每个段落都用分割线分割，这样会让文章看起来档次很低，有一种随意做笔记，登不上台面的感觉。</p>
-</li>
-<li><p><strong>代码</strong><br>文章中嵌入代码方便读者更好地对问题的解决进行理解。象征性的代码推荐使用截图实现，象征性的代码一般非解决问题过程中直接用到的代码，而是类似于源码，用来说明问题的辅助性代码，如下图：<br><img src="http://upload-images.jianshu.io/upload_images/291600-83c8c2fadf4b3531.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="象征性代码"><br>而关键代码推荐在代码框手动输入，这样方便读者对代码进行粘贴复制，同时使用代码框也可以将代码和原文很好地划分开，方便读者阅读。</p>
-</li>
-<li><p><strong>图片</strong><br>图片作为辅助性素材，可以恰到好处地弥补语言不以描述的不足，一般放在描述性文本内容的前面，图片下方亦可添加图片的简单说明，效果更佳。简书图片使用七牛云处理，修改图片链接后的参数，可对图片的大小进行调整，推荐写博客时适当调整图片大小达到布局排版平衡，参数修改如下图，w表示宽度，后面选中的数值表示宽度的像素点：<br><img src="http://upload-images.jianshu.io/upload_images/291600-96a0ae36d67d19b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="修改图片大小参数"></p>
-</li>
-<li><p><strong>转载</strong><br>作为对原创最基本的尊重，转载时务必在文章底部或文章开头添加原创文章的链接；为方便读者对问题更加全面的理解，建议笔者在文章中添加自己解决问题时参考的文章链接。</p>
-</li>
-</ul>
-<h1 id="写好博客后做什么？"><a href="#写好博客后做什么？" class="headerlink" title="写好博客后做什么？"></a>写好博客后做什么？</h1><p>写好一篇博客后，不要急着发布投稿，先做好以下几点：</p>
-<ul>
-<li>检查文章错别字</li>
-<li>润色文章语句，使读起来连贯通顺</li>
-<li>检查代码格式和字母拼写是否正确</li>
-<li>检查链接是否有效</li>
-</ul>
-<p>做好以上几点，接下来可以考虑发表并投稿文章，投稿文章时请注意以下两点：</p>
-<ul>
-<li><p><strong>投稿时间</strong><br>关注简书的用户大多是在校大学生和在职上班族，他们一天大多数时间都投入上班学习中，唯有在<em>早餐时间</em> 、<em>午休时间</em> 和<em>晚上下班后到临睡前</em> 这些时间段是有空浏览简书的，所以建议在这几个时间段投稿自己的文章，而且这些时间段里，文章被收录的处理时间更短，浏览量会更高。</p>
-</li>
-<li><p><strong>投稿专题</strong><br>好马需要有伯乐的赏识，一篇好的文章需要有好的专题环境才能获得更大的关注度。选择专题需要关注专题收录的<em>文章类型</em> 和<em>订阅人数</em>，合适的文章类型能快速的让读者找到自己文章，而订阅量大的专题可以极大地提高文章的点击量。</p>
-</li>
-</ul>
-<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>在浏览简书的时候，我经常可以看到有这么几类文章浏览量和点赞人数非常得多：<em>鸡汤励志文</em> 、<em>工具推荐文</em> 、<em>速成效率文</em> 、<em>高逼格不知所云但云之有理文</em> 。在这里强调一下，我们写技术博客的主要目的是分享自己解决问题的经验，其次是通过写博客来温故或者说是更深一步地理解问题的本质。不论我们写什么文章，重要的是通过<em>写</em> 来给自己带来实质性的价值，所以希望大家不要盲目追求点赞量，失去自己写博客的初衷。不忘初心，方得始终！</p>
+      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
+<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p>If you want your computer to recognize very complex patterns - then trust me on this - you really need to start using neural networks. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-5096f18440ed94c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>When the patterns get really complex, neural nets start  to outperform all of their competition. Plus, GPUs can train them faster than ever before! Let’s take a look. Neural  nets truly have the potential to revolutionize the field of Artificial Intelligence. We all know that computers are very good with repetitive calculations and detailed instructions, but they’re historically been bad at recognizing patterns. Thanks to deep learning, this is all about to change.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-bda7fa1f3217fe70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>If you only need to analyze simple patterns, a basic classification tool like an SVM or Logistic Regression is typically good enough. But when your data has 10s of different inputs or more, neural nets start to win out over the other methods. Still, as the patterns get even more complex, neural networks with a small number of layers can become unusable. The reason is that the number of nodes required in each layer grows exponentially with the number of possible patterns in the data. Eventually training becomes way too expensive and the accuracy starts to suffer. So for an intricate pattern - like an image of a human face, for example - basic classification engines and shallow neural nets simply aren’t good enough - the only practical choice is a deep net. Have you ever run into a wall when trying to work with highly complex data? Please comment and let me know your thoughts.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-33521a1b7a18caef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>But what enables a deep net to recognize these complex patterns? The key is that deep nets are able to break the complex patterns down into a series of simpler patterns. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-e44582f5ce31488b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>For example, let’s say that a net had to decide whether or not an image contained a human face. A deep net would first use edges to detect different parts of the face - the lips, nose, eyes, ears, and so on - and would then combine the results together to form the whole face. This important feature - using simpler patterns as building blocks to detect complex patterns - is what gives you deep nets their strength. The accuracy of these nets has become very impressive - in fact, a deep net from google recently beat a human at a pattern recognition challenge. </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-6ec9a3e1526696ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>It’s not surprising that deep nets were inspired by the structure of our own human brains. Even in the early days of neural networks, researchers wanted to link a large number of perceptrons together in a layered web - an idea which helped improve their accuracy. It is believed that our brains have a very deep architecture and that we decipher patterns just like a deep net - we detect complex patterns by first detecting, and combining the simple one.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-003f76776875f6ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>There is one downside to all of this - deep nets take much longer to train. The good news is that recent advances in computing have really reduced the amount of time it takes to properly train a net. High performance GPUs can finish training a complex net in under a week, when fast CPUs may have taken weeks or even months.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-758d196573c9e134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<p>Before we talk more about the various Deep Learning models, we’re going to briefly discuss which types of deep nets are suitable for different machine learning tasks. That’s coming in the next video.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=CEv_0r5huTY&amp;index=3&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/03/12/7106993/#disqus_thread</comments>
+      <comments>http://inerdstack.com/2017/04/02/10682963/#disqus_thread</comments>
     </item>
     
   </channel>
