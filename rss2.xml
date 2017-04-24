@@ -8,8 +8,42 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>一名默默无闻的程序猿的日常博客分享</description>
-    <pubDate>Sun, 02 Apr 2017 04:09:10 GMT</pubDate>
+    <pubDate>Mon, 24 Apr 2017 05:19:58 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Eclipse新版本无法安装fatjar插件问题解决</title>
+      <link>http://inerdstack.com/2017/04/24/11689085/</link>
+      <guid>http://inerdstack.com/2017/04/24/11689085/</guid>
+      <pubDate>Mon, 24 Apr 2017 04:50:02 GMT</pubDate>
+      <description>
+      
+        &lt;h1 id=&quot;前情提要&quot;&gt;&lt;a href=&quot;#前情提要&quot; class=&quot;headerlink&quot; title=&quot;前情提要&quot;&gt;&lt;/a&gt;前情提要&lt;/h1&gt;&lt;p&gt;今天将Java程序导出为Jar包的时候遇到一个问题：程序中写了一个DBUtil类，在Eclipse中直接跑的时候没有任何问题
+      
+      </description>
+      
+      <content:encoded><![CDATA[<h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>今天将Java程序导出为Jar包的时候遇到一个问题：程序中写了一个DBUtil类，在Eclipse中直接跑的时候没有任何问题，然而导出为Jar的时候发现运行报出找不到依赖包的问题，查询了网上，发现Eclipse的fat-jar插件可以将依赖包自动导入进去，于是尝试下载Eclipse插件。这时候遇到了问题，笔者的Eclipse版本无法安装fat-jar插件。</p>
+<h1 id="下载安装Eclipse2-0版本的插件支持"><a href="#下载安装Eclipse2-0版本的插件支持" class="headerlink" title="下载安装Eclipse2.0版本的插件支持"></a>下载安装Eclipse2.0版本的插件支持</h1><p>插件之所以无法安装是因为插件的版本和Eclipse的版本不兼容，这时候需要下载一个另一个插件，来解决新老版本的插件无法安装完问题。<br>打开Eclipse，菜单栏找到Help–Install New Software，在弹出框中单击Add…按钮：<br><img src="http://upload-images.jianshu.io/upload_images/291600-bc47cec10fbbeacc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<p>单击按钮后出现新的弹出窗口，分别输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Name: The Eclipse Project Updates </div><div class="line">Location: http://download.eclipse.org/eclipse/updates/4.4</div></pre></td></tr></table></figure>
+<p>如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-93d1a8cdeef82034.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<p>然后单击OK按钮，接着一路Next完成插件的安装后，重启Eclipse即可。</p>
+<h1 id="下载安装fatjar插件"><a href="#下载安装fatjar插件" class="headerlink" title="下载安装fatjar插件"></a>下载安装fatjar插件</h1><p>以上述讨论，输入如下内容即可完成fatjar插件的安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Name: fatjar</div><div class="line">Location: http://kurucz-grafika.de/fatjar</div></pre></td></tr></table></figure>
+<h1 id="fatjar的使用"><a href="#fatjar的使用" class="headerlink" title="fatjar的使用"></a>fatjar的使用</h1><p>既然已经提到了fatjar的安装，就在提提fatjar的使用吧！<br>单击右键选择Export，在出现的弹窗中选择Other–Fat Jar Exporter。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-a0ad5b0918628255.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<p>在Select one java Project窗口选择要导出的Java工程，单击Next按钮：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-29d8337f455bbfad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<p>在Main-Class一项单击Browse…按钮，选择程序入口的类（包含main方法的类），然后勾选One-JAR选框</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-b6476d9d0e5878f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<p>然后选择要一起打包的依赖包，单击Finish按钮即可完成导出Jar的过程。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/291600-d0dce155aace53c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/450" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://blog.csdn.net/lvxiangan/article/details/54019914" target="_blank" rel="external">解决Eclipse最新版本无法安装fatjar插件的问题</a><br><a href="http://www.cnblogs.com/mstk/p/3884195.html" target="_blank" rel="external">Eclipse下FatJar插件的安装与使用</a></p>
+]]></content:encoded>
+      
+      <comments>http://inerdstack.com/2017/04/24/11689085/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>【门外汉深度学习-7】深度信念网络</title>
@@ -197,40 +231,6 @@
 ]]></content:encoded>
       
       <comments>http://inerdstack.com/2017/04/02/10765634/#disqus_thread</comments>
-    </item>
-    
-    <item>
-      <title>【门外汉深度学习-3】为什么要深入学习</title>
-      <link>http://inerdstack.com/2017/04/02/10682963/</link>
-      <guid>http://inerdstack.com/2017/04/02/10682963/</guid>
-      <pubDate>Sun, 02 Apr 2017 04:01:56 GMT</pubDate>
-      <description>
-      
-        &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;本文源自YouTube网站《&lt;a href=&quot;https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;amp
-      
-      </description>
-      
-      <content:encoded><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文源自YouTube网站《<a href="https://www.youtube.com/watch?v=b99UVkWzYTQ&amp;index=1&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">Deep Learning SIMPLIFIED</a>》系列视频，文章内容为视频的字幕，供深度学习初学者参考学习。</p>
-<h1 id="主体内容"><a href="#主体内容" class="headerlink" title="主体内容"></a>主体内容</h1><p>If you want your computer to recognize very complex patterns - then trust me on this - you really need to start using neural networks. </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-5096f18440ed94c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>When the patterns get really complex, neural nets start  to outperform all of their competition. Plus, GPUs can train them faster than ever before! Let’s take a look. Neural  nets truly have the potential to revolutionize the field of Artificial Intelligence. We all know that computers are very good with repetitive calculations and detailed instructions, but they’re historically been bad at recognizing patterns. Thanks to deep learning, this is all about to change.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-bda7fa1f3217fe70.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>If you only need to analyze simple patterns, a basic classification tool like an SVM or Logistic Regression is typically good enough. But when your data has 10s of different inputs or more, neural nets start to win out over the other methods. Still, as the patterns get even more complex, neural networks with a small number of layers can become unusable. The reason is that the number of nodes required in each layer grows exponentially with the number of possible patterns in the data. Eventually training becomes way too expensive and the accuracy starts to suffer. So for an intricate pattern - like an image of a human face, for example - basic classification engines and shallow neural nets simply aren’t good enough - the only practical choice is a deep net. Have you ever run into a wall when trying to work with highly complex data? Please comment and let me know your thoughts.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-33521a1b7a18caef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>But what enables a deep net to recognize these complex patterns? The key is that deep nets are able to break the complex patterns down into a series of simpler patterns. </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-e44582f5ce31488b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>For example, let’s say that a net had to decide whether or not an image contained a human face. A deep net would first use edges to detect different parts of the face - the lips, nose, eyes, ears, and so on - and would then combine the results together to form the whole face. This important feature - using simpler patterns as building blocks to detect complex patterns - is what gives you deep nets their strength. The accuracy of these nets has become very impressive - in fact, a deep net from google recently beat a human at a pattern recognition challenge. </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-6ec9a3e1526696ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>It’s not surprising that deep nets were inspired by the structure of our own human brains. Even in the early days of neural networks, researchers wanted to link a large number of perceptrons together in a layered web - an idea which helped improve their accuracy. It is believed that our brains have a very deep architecture and that we decipher patterns just like a deep net - we detect complex patterns by first detecting, and combining the simple one.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-003f76776875f6ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>There is one downside to all of this - deep nets take much longer to train. The good news is that recent advances in computing have really reduced the amount of time it takes to properly train a net. High performance GPUs can finish training a complex net in under a week, when fast CPUs may have taken weeks or even months.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-758d196573c9e134.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<p>Before we talk more about the various Deep Learning models, we’re going to briefly discuss which types of deep nets are suitable for different machine learning tasks. That’s coming in the next video.</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/291600-f7ab81d3c318996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/350" alt=""></p>
-<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=CEv_0r5huTY&amp;index=3&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
-]]></content:encoded>
-      
-      <comments>http://inerdstack.com/2017/04/02/10682963/#disqus_thread</comments>
     </item>
     
   </channel>
