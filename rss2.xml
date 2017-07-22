@@ -4,7 +4,7 @@
   xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>程序员技术栈</title>
-    <link>http://inerdstack.com/</link>
+    <link>http://dmkf.xyz/</link>
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>一名默默无闻的程序猿的日常博客分享</description>
@@ -13,8 +13,8 @@
     
     <item>
       <title>Eclipse新版本无法安装fatjar插件问题解决</title>
-      <link>http://inerdstack.com/2017/04/24/11689085/</link>
-      <guid>http://inerdstack.com/2017/04/24/11689085/</guid>
+      <link>http://dmkf.xyz/2017/04/24/11689085/</link>
+      <guid>http://dmkf.xyz/2017/04/24/11689085/</guid>
       <pubDate>Mon, 24 Apr 2017 04:50:02 GMT</pubDate>
       <description>
       
@@ -42,13 +42,13 @@
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://blog.csdn.net/lvxiangan/article/details/54019914" target="_blank" rel="external">解决Eclipse最新版本无法安装fatjar插件的问题</a><br><a href="http://www.cnblogs.com/mstk/p/3884195.html" target="_blank" rel="external">Eclipse下FatJar插件的安装与使用</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/04/24/11689085/#disqus_thread</comments>
+      <comments>http://dmkf.xyz/2017/04/24/11689085/#disqus_thread</comments>
     </item>
     
     <item>
       <title>【门外汉深度学习-7】深度信念网络</title>
-      <link>http://inerdstack.com/2017/04/02/10881655/</link>
-      <guid>http://inerdstack.com/2017/04/02/10881655/</guid>
+      <link>http://dmkf.xyz/2017/04/02/10881655/</link>
+      <guid>http://dmkf.xyz/2017/04/02/10881655/</guid>
       <pubDate>Sun, 02 Apr 2017 04:08:12 GMT</pubDate>
       <description>
       
@@ -82,13 +82,13 @@
 <h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=E2Mt_7qked0&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;index=7" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/04/02/10881655/#disqus_thread</comments>
+      <comments>http://dmkf.xyz/2017/04/02/10881655/#disqus_thread</comments>
     </item>
     
     <item>
       <title>【门外汉深度学习-6】受限波兹曼机</title>
-      <link>http://inerdstack.com/2017/04/02/10792711/</link>
-      <guid>http://inerdstack.com/2017/04/02/10792711/</guid>
+      <link>http://dmkf.xyz/2017/04/02/10792711/</link>
+      <guid>http://dmkf.xyz/2017/04/02/10792711/</guid>
       <pubDate>Sun, 02 Apr 2017 04:06:44 GMT</pubDate>
       <description>
       
@@ -116,13 +116,13 @@
 <h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://www.youtube.com/watch?v=puux7KZQfsE&amp;list=PLjJh1vlSEYgvGod9wWiydumYl8hOXixNu&amp;index=6" target="_blank" rel="external">视频链接</a><br><a href="http://www.jianshu.com/p/4f7e4f27dad9" target="_blank" rel="external">本系列文章目录</a></p>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/04/02/10792711/#disqus_thread</comments>
+      <comments>http://dmkf.xyz/2017/04/02/10792711/#disqus_thread</comments>
     </item>
     
     <item>
       <title>【门外汉深度学习-5】一个老问题</title>
-      <link>http://inerdstack.com/2017/04/02/10787217/</link>
-      <guid>http://inerdstack.com/2017/04/02/10787217/</guid>
+      <link>http://dmkf.xyz/2017/04/02/10787217/</link>
+      <guid>http://dmkf.xyz/2017/04/02/10787217/</guid>
       <pubDate>Sun, 02 Apr 2017 04:05:38 GMT</pubDate>
       <description>
       
@@ -187,13 +187,13 @@
 </ul>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/04/02/10787217/#disqus_thread</comments>
+      <comments>http://dmkf.xyz/2017/04/02/10787217/#disqus_thread</comments>
     </item>
     
     <item>
       <title>【门外汉深度学习-4】深度网络的选择</title>
-      <link>http://inerdstack.com/2017/04/02/10765634/</link>
-      <guid>http://inerdstack.com/2017/04/02/10765634/</guid>
+      <link>http://dmkf.xyz/2017/04/02/10765634/</link>
+      <guid>http://dmkf.xyz/2017/04/02/10765634/</guid>
       <pubDate>Sun, 02 Apr 2017 04:03:54 GMT</pubDate>
       <description>
       
@@ -230,7 +230,7 @@
 </ul>
 ]]></content:encoded>
       
-      <comments>http://inerdstack.com/2017/04/02/10765634/#disqus_thread</comments>
+      <comments>http://dmkf.xyz/2017/04/02/10765634/#disqus_thread</comments>
     </item>
     
   </channel>
